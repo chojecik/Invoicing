@@ -20,7 +20,7 @@ namespace Invoicing.Data.Entities
 
         [Required]
         [MaxLength(50)]
-        public string Username { get; set; }
+        public string Email { get; set; }
 
         [Required]
         public byte[] PasswordHash { get; set; }

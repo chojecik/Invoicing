@@ -4,4 +4,9 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Invoicing.Core\Invoicing.Core.csproj" />
+    <ProjectReference Include="..\Invoicing.Data\Invoicing.Data.csproj" />
+  </ItemGroup>
+
 </Project>

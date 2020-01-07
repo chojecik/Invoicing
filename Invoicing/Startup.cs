@@ -1,13 +1,17 @@
 using Invoicing.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.EntityFrameworkCore.SqlServer;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
+using Invoicing.Core.Helpers;
+using Invoicing.Services.Interfaces;
+using Invoicing.Services;
+using Invoicing.Core.Interfaces;
+using Invoicing.Core.Repositories;
 
 namespace Invoicing
 {
@@ -32,6 +36,11 @@ namespace Invoicing
 
             services.AddDbContext<DataContext>(opts => 
                 opts.UseSqlServer(Configuration.GetConnectionString("InvoicingDB")));
+
+            services.AddAutoMapper(typeof(AutoMapperProfile));
+
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IUserRepository, UserRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

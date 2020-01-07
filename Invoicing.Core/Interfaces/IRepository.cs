@@ -11,7 +11,7 @@ namespace Invoicing.Core.Interfaces
         ValueTask<TEntity> GetByIdAsync(int id);
         Task<IEnumerable<TEntity>> GetAllAsync();
         IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> predicate);
-        Task AddAsync(TEntity entity);
+        void AddAsync(TEntity entity);
         Task AddRangeAsync(IEnumerable<TEntity> entities);
         Task UpdateAsync(TEntity entity);
         Task UpdateRangeAsync(IEnumerable<TEntity> entities);

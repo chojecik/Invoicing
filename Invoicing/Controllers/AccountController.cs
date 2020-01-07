@@ -1,9 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using Invoicing.Core.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
+using Invoicing.Data.Entities;
+using Invoicing.Services.Interfaces;
+using AutoMapper;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Invoicing.Controllers
@@ -11,6 +12,15 @@ namespace Invoicing.Controllers
     [Route("api/[controller]")]
     public class AccountController : Controller
     {
+        private readonly IUserService _userService;
+        private readonly IMapper _mapper;
+
+        public AccountController(IUserService userService, IMapper mapper)
+        {
+            _userService = userService;
+            _mapper = mapper;
+        }
+
         // GET: api/<controller>
         [HttpGet]
         public IEnumerable<string> Get()
@@ -26,9 +36,20 @@ namespace Invoicing.Controllers
         }
 
         // POST api/<controller>
+        [AllowAnonymous]
         [HttpPost("register")]
-        public void Post([FromBody]string value)
+        public IActionResult Post([FromBody]RegisterModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            var user = _mapper.Map<User>(model);
+
+           var createdUser = _userService.CreateUser(user, model.Password);
+
+            return Ok(user);
         }
 
         // PUT api/<controller>/5
