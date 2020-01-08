@@ -1,4 +1,3 @@
-using Invoicing.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
@@ -7,11 +6,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
-using Invoicing.Core.Helpers;
-using Invoicing.Services.Interfaces;
-using Invoicing.Services;
-using Invoicing.Core.Interfaces;
-using Invoicing.Core.Repositories;
+using Invoicing.Core;
+using Invoicing.Web.Helpers;
+using Invoicing.BusinessLogic.Interfaces;
+using Invoicing.BusinessLogic.Services;
 
 namespace Invoicing
 {
@@ -40,7 +38,6 @@ namespace Invoicing
             services.AddAutoMapper(typeof(AutoMapperProfile));
 
             services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IUserRepository, UserRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

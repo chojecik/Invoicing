@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Invoicing.Data.Migrations
+namespace Invoicing.Core.Database.Migrations
 {
     public partial class RenameUserIdColumnInUserTable : Migration
     {

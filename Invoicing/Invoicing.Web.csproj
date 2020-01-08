@@ -10,6 +10,8 @@
 
     <!-- Set this to true if you enable server-side prerendering -->
     <BuildServerSideRenderer>false</BuildServerSideRenderer>
+    <AssemblyName>Invoicing.Web</AssemblyName>
+    <RootNamespace>Invoicing.Web</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -35,13 +37,11 @@
     <Folder Include="ClientApp\src\app\interfaces\" />
     <Folder Include="ClientApp\src\app\directives\" />
     <Folder Include="ClientApp\src\app\services\" />
-    <Folder Include="Models\" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Invoicing.BusinessLogic\Invoicing.BusinessLogic.csproj" />
     <ProjectReference Include="..\Invoicing.Core\Invoicing.Core.csproj" />
-    <ProjectReference Include="..\Invoicing.Data\Invoicing.Data.csproj" />
-    <ProjectReference Include="..\Invoicing.Services\Invoicing.Services.csproj" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

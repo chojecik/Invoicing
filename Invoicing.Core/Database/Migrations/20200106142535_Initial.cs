@@ -1,7 +1,6 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Invoicing.Data.Migrations
+namespace Invoicing.Core.Database.Migrations
 {
     public partial class Initial : Migration
     {

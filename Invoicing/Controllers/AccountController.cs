@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
-using Invoicing.Core.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Invoicing.Data.Entities;
-using Invoicing.Services.Interfaces;
 using AutoMapper;
+using Invoicing.BusinessLogic.Interfaces;
+using Invoicing.Web.Models;
+using Invoicing.Core.Entities;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace Invoicing.Controllers
+namespace Invoicing.Web.Controllers
 {
     [Route("api/[controller]")]
     public class AccountController : Controller
@@ -47,7 +47,7 @@ namespace Invoicing.Controllers
 
             var user = _mapper.Map<User>(model);
 
-           var createdUser = _userService.CreateUser(user, model.Password);
+           _userService.CreateUser(user, model.Password);
 
             return Ok(user);
         }

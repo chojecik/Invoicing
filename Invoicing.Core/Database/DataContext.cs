@@ -1,12 +1,9 @@
-﻿using Invoicing.Data.Entities;
+﻿using Invoicing.Core.Entities;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Invoicing.Data
+namespace Invoicing.Core
 {
-    public class DataContext: DbContext
+    public class DataContext : DbContext
     {
         public DataContext(DbContextOptions options) : base(options)
         {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Invoicing.Core.Models
+namespace Invoicing.Web.Models
 {
     public class UserModel
     {
