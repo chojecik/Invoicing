@@ -22,13 +22,12 @@ export class RegisterComponent implements OnInit {
   }
 
   registerUser({ value, valid }: { value: AppUser, valid: boolean }) {
-    debugger;
     this.submitted = true;
     //this.isRequesting = true;
     this.errors = '';
 
     if (valid) {
-      this.accountService.register(
+      this.accountService.register(   //TODO zmnienić zeby metoda przyjmowala obiekt 
         value.email,
         value.password,
         value.firstName,

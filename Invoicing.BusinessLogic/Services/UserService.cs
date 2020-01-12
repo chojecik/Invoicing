@@ -77,6 +77,29 @@ namespace Invoicing.BusinessLogic.Services
             return user;
         }
 
+        public User Authenticate(string email, string password)
+        {
+            if(string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
+            {
+                return null;
+            }
+
+            var user = _context.Users.FirstOrDefault(u => u.Email.Equals(email));
+
+            if (user == null)
+            {
+                return null;
+            }
+
+            if(!VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
+            {
+                return null;
+            }
+
+            return user;
+
+        }
+
         private static void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
             if (string.IsNullOrWhiteSpace(password))
@@ -88,6 +111,36 @@ namespace Invoicing.BusinessLogic.Services
             {
                 passwordSalt = hmac.Key;
                 passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+            }
+        }
+
+        private static bool VerifyPasswordHash(string password, byte[] storedHash, byte[] storedSalt)
+        {
+            if (string.IsNullOrWhiteSpace(password))
+            {
+                throw new ArgumentException("Value cannot be empty or whitespace only string.", "password");
+            }
+            if(storedHash.Length != 64)
+            {
+                throw new ArgumentException("Invalid length of password hash (64 bytes expected).", "passwordHash");
+            }
+            if(storedSalt.Length != 128)
+            {
+                throw new ArgumentException("Invalid length of password salt (128 bytes expected).", "passwordHash");
+            }
+
+            using (var hmac = new System.Security.Cryptography.HMACSHA512(storedSalt))
+            {
+                var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+                for(int i = 0; i < computedHash.Length; i++)
+                {
+                    if(computedHash[i] != storedHash[i])
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
             }
         }
     }
