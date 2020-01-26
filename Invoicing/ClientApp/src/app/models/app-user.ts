@@ -11,6 +11,7 @@ export class AppUser implements UserRegistrationInterface{
     public streetNumber: number,
     public localNumber: string,
     public city: string,
-    public zipCode: string
+    public zipCode: string,
+    public token: string
   ) { };
 }
