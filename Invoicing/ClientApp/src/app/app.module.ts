@@ -11,6 +11,9 @@ import { PasswordValidatorDirective } from './directives/password-validator.dire
 import { HomeComponent } from './components/home/home.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { CostInvoicesComponent } from './components/invoices/cost-invoices/cost-invoices.component';
+import { AddInvoiceComponent } from './components/invoices/add-invoice/add-invoice.component';
+import { EditInvoiceComponent } from './components/invoices/edit-invoice/edit-invoice.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -21,16 +24,21 @@ import { CostInvoicesComponent } from './components/invoices/cost-invoices/cost-
     PasswordValidatorDirective,
     HomeComponent,
     NavbarComponent,
-    CostInvoicesComponent
+    CostInvoicesComponent,
+    AddInvoiceComponent,
+    EditInvoiceComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
+    ReactiveFormsModule,
     RouterModule.forRoot([
       { path: '', redirectTo: 'welcome', pathMatch: 'full' },
       { path: 'welcome', component: WelcomeComponent },
       { path: 'cost-invoices', component: CostInvoicesComponent },
+      { path: 'cost-invoices/add', component: AddInvoiceComponent },
+      { path: 'cost-invoices/edit/:id', component: EditInvoiceComponent },
       { path: 'home', component: HomeComponent },
       { path: 'login', component: LoginComponent },
       { path: 'register', component: RegisterComponent },

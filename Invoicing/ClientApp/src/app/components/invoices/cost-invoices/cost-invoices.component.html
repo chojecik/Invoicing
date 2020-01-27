@@ -1,29 +1,41 @@
+<h2>
+  Faktury kosztowe
+  <a class="float-right" [routerLink]="['/cost-invoices/add']">
+    <button type="button" class="btn btn-primary">Add</button>
+  </a>
+</h2>
 <table class="table table-responsive">
   <thead>
     <tr>
       <th class="col-md-1 col-sm-1 col-xs-1">Id</th>
       <th class="col-md-1 col-sm-1 col-xs-1">Numer</th>
       <th class="col-md-1 col-sm-1 col-xs-1">Sprzedawca</th>
-      <th class="col-md-1 col-sm-1 col-xs-1">Data sprzedaży</th>
+      <th class="col-md-1 col-sm-1 col-xs-1">Data</th>
+      <th class="col-md-1 col-sm-1 col-xs-1">Kwota brutto</th>
+      <th class="col-md-1 col-sm-1 col-xs-1">Kwota netto</th>
+      <th class="col-md-1 col-sm-1 col-xs-1">VAT</th>
       <th class="col-md-1 col-sm-1 col-xs-1"></th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let invoice of invoices let i = index" [attr.data.index]="i">
-      <td class="col-md-1 col-sm-1 col-xs-1">{{i + 1}}</td>
-      <td class="col-md-1 col-sm-1 col-xs-1">{{i + 1}}</td>
-      <td class="col-md-1 col-sm-1 col-xs-1">{{i + 1}}</td>
-      <td class="col-md-1 col-sm-1 col-xs-1">{{i + 1}}</td>
-      <td class="col-md-1 col-sm-1 col-xs-1"><button class="btn btn-primary" (click)="downloadFile(invoice.id)">Pobierz plik</button></td>
-      <!--<td class="col-md-1 col-sm-1 col-xs-1">{{book.title}}</td>
-  <td class="col-md-1 col-sm-1 col-xs-1">{{book.author}}</td>
-  <td class="col-md-1 col-sm-1 col-xs-1">{{book.status | statusPipe}}</td>
-  <td class="col-md-1 col-sm-1 col-xs-1"><button class="btn btn-primary" (click)="getBook(book.id)">Details</button></td>
-  <td class="col-md-1 col-sm-1 col-xs-1"><button class="btn btn-success" (click)="updateBook(book.id)">Update</button></td>-->
-      <!--<td class="col-md-1 col-sm-1 col-xs-1"><button class="btn btn-danger" (click)="deleteBook(book.id)">Delete</button></td>-->
+      <td width="20">{{i + 1}}</td>
+      <td width="20">{{invoice.invoiceNumber}}</td>width="20"
+      <td width="20">{{invoice.seller}}</td>
+      <td width="20">{{invoice.date}}</td>
+      <td width="20">{{invoice.grossAmount}}</td>
+      <td width="20">{{invoice.netAmount}}</td>
+      <td width="20">{{invoice.vatAmount}}</td>
+      <td width="250">
+        <button class="btn btn-primary" (click)="downloadFile(invoice.id)">Pobierz plik</button>
+        <button type="button" class="btn btn-danger mr-1" (click)="deleteInvoice(invoice.id, i)">Delete</button>
+        <a [routerLink]="['/cost-invoices/edit/', invoice.id]">
+          <button type="button" class="btn btn-primary">Edit</button>
+        </a>
+      </td>
     </tr>
-    <tr *ngIf="books.length == 0">
-      <td style="text-align: center" colspan="8">{{tableEmptyInfo}}</td>
+    <tr *ngIf="invoices.length == 0">
+      <td style="text-align: center" colspan="8">Brak danych</td>
     </tr>
   </tbody>
 </table>

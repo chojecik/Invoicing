@@ -39,6 +39,7 @@
     <Folder Include="ClientApp\src\app\models\" />
     <Folder Include="ClientApp\src\app\interfaces\" />
     <Folder Include="ClientApp\src\app\directives\" />
+    <Folder Include="ClientApp\src\app\enums\" />
     <Folder Include="ClientApp\src\app\services\" />
   </ItemGroup>
 
