@@ -10,6 +10,7 @@ import { InvoicesService } from '../../../services/invoices.service';
 })
 export class AddInvoiceComponent implements OnInit {
   invoiceForm: FormGroup;
+  file: File = null;
 
   constructor(private formBuilder: FormBuilder, private router: Router, private invoiceService: InvoicesService) { }
 
@@ -32,5 +33,4 @@ export class AddInvoiceComponent implements OnInit {
         console.log(err);
       });
   }
-
 }

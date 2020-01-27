@@ -9,4 +9,5 @@ export class Invoice {
   netAmount: number;
   vatAmount: number;
   type: InvoiceType;
+  file: File;
 }
