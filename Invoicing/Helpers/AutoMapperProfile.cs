@@ -1,10 +1,6 @@
 ﻿using AutoMapper;
-using Invoicing.Core.Entities;
+using Invoicing.Core.Database.Entities;
 using Invoicing.Web.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Invoicing.Web.Helpers
 {
@@ -13,6 +9,11 @@ namespace Invoicing.Web.Helpers
         public AutoMapperProfile() 
         {
             CreateMap<RegisterModel, User>();
+
+            CreateMap<InvoiceModel, Invoice>()
+                .ForMember(dest => dest.Number, opts => opts.MapFrom(src => src.InvoiceNumber))
+                .ForPath(dest => dest.Attachment.DirectoryPath, opts => opts.MapFrom(src => src.FilePath))
+                .ForPath(dest => dest.Attachment.FileExtension, opts => opts.MapFrom(src => src.FileExtension));
         }
     }
 }

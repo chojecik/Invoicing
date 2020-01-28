@@ -35,7 +35,7 @@ namespace Invoicing.BusinessLogic.Interfaces
         /// </summary>
         /// <param name="entity">Entity to insert</param>
         /// <returns>Returns created entity of T type</returns>
-        T Create(T entity);
+        T Add(T entity);
 
         /// <summary>
         /// Updates the record in the database

@@ -1,6 +1,6 @@
 ﻿using Invoicing.BusinessLogic.Interfaces;
 using Invoicing.Core;
-using Invoicing.Core.Entities;
+using Invoicing.Core.Database.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -38,20 +38,6 @@ namespace Invoicing.BusinessLogic.Services
                 .AsNoTracking()
                 .Where(predicate)
                 .ToList();
-        }
-        public User Create(User entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public User Update(User entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Delete(User entity)
-        {
-            throw new NotImplementedException();
         }
 
         public User CreateUser(User user, string password)
@@ -97,7 +83,14 @@ namespace Invoicing.BusinessLogic.Services
             }
 
             return user;
-
+        }
+        public void Delete(User entity)
+        {
+            if (entity != null)
+            {
+                _context.Remove(entity);
+                _context.SaveChanges();
+            }
         }
 
         private static void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)

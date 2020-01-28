@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using Invoicing.BusinessLogic.Interfaces;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,6 +15,12 @@ namespace Invoicing.Web.Controllers
     [Route("api/[controller]")]
     public class UploadController : Controller
     {
+        private readonly IFileService _fileService;
+        public UploadController(IFileService fileService)
+        {
+            _fileService = fileService;
+        }
+
         // GET: api/<controller>
         [HttpGet]
         public IEnumerable<string> Get()
@@ -34,24 +41,8 @@ namespace Invoicing.Web.Controllers
         {
             try
             {
-                var fullPath = string.Empty;
-                var file = Request.Form.Files[0];
-                string folderName = "Upload";
-                string newPath = Path.Combine(Directory.GetCurrentDirectory(), folderName);
-                if (!Directory.Exists(newPath))
-                {
-                    Directory.CreateDirectory(newPath);
-                }
-                if (file.Length > 0)
-                {
-                    string fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
-                    fullPath = Path.Combine(newPath, fileName);
-                    using (var stream = new FileStream(fullPath, FileMode.Create))
-                    {
-                        file.CopyTo(stream);
-                    }
-                }
-                return Json(fullPath);
+                var path = _fileService.ExportFile(Request.Form.Files[0]);
+                return Json(path);
             }
             catch (System.Exception ex)
             {

@@ -1,4 +1,4 @@
-﻿using Invoicing.Core.Entities;
+﻿using Invoicing.Core.Database.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Invoicing.Core
@@ -10,5 +10,7 @@ namespace Invoicing.Core
         }
 
         public DbSet<User> Users { get; set; }
+        public DbSet<Invoice> Invoices { get; set; }
+        public DbSet<Attachment> Attachments { get; set; }
     }
 }

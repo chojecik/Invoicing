@@ -29,7 +29,7 @@ namespace Invoicing.Core.Database.Entities
         public decimal VatAmount { get; set; }
 
         [Required]
-        public InvoiceType InvoiceType { get; set; }
+        public InvoiceType Type { get; set; }
 
         public virtual Attachment Attachment { get; set; }
 

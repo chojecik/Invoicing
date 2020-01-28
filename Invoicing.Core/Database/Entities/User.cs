@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Invoicing.Core.Entities
+namespace Invoicing.Core.Database.Entities
 {
     public class User
     {

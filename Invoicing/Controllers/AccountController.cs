@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
 using Invoicing.BusinessLogic.Interfaces;
 using Invoicing.Web.Models;
-using Invoicing.Core.Entities;
+using Invoicing.Core.Database.Entities;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Invoicing.Web.Controllers
@@ -42,7 +42,7 @@ namespace Invoicing.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest();
+                return BadRequest(ModelState);
             }
 
             var user = _mapper.Map<User>(model);

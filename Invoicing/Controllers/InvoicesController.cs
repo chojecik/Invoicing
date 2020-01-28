@@ -1,4 +1,7 @@
 ﻿using System.Collections.Generic;
+using AutoMapper;
+using Invoicing.BusinessLogic.Interfaces;
+using Invoicing.Core.Database.Entities;
 using Invoicing.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,11 +12,22 @@ namespace Invoicing.Web.Controllers
     [Route("api/[controller]")]
     public class InvoicesController : Controller
     {
+        private readonly IMapper _mapper;
+        private readonly IInvoiceService _invoiceService;
+        private readonly IFileService _fileService;
+
+        public InvoicesController(IMapper mapper, IInvoiceService invoiceService, IFileService fileService)
+        {
+            _mapper = mapper;
+            _invoiceService = invoiceService;
+            _fileService = fileService;
+        }
+
         // GET: api/<controller>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IActionResult Get()
         {
-            return null;
+            return new JsonResult(_invoiceService.GetAll());    //TODO wyswietlac tylko faktury obecnego uzytkownika, zwraca ViewModel
         }
 
         // GET api/<controller>/5
@@ -25,9 +39,19 @@ namespace Invoicing.Web.Controllers
 
         // POST api/<controller>
         [HttpPost, DisableRequestSizeLimit]
-        public void Post([FromBody]InvoiceModel model)
+        public IActionResult Post([FromBody]InvoiceModel model)
         {
+            model.FileExtension = _fileService.GetFileExtension(model.FilePath);
 
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var invoice = _mapper.Map<Invoice>(model);
+            _invoiceService.Add(invoice);
+            //TODO usunąć plik z TempUpload i zapisać w docelowym katalogu
+            return Ok(invoice);
         }
 
         // PUT api/<controller>/5
