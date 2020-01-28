@@ -40,7 +40,9 @@
     <Folder Include="ClientApp\src\app\interfaces\" />
     <Folder Include="ClientApp\src\app\directives\" />
     <Folder Include="ClientApp\src\app\enums\" />
+    <Folder Include="ClientApp\src\app\pipes\" />
     <Folder Include="ClientApp\src\app\services\" />
+    <Folder Include="Resources\" />
   </ItemGroup>
 
   <ItemGroup>

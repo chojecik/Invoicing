@@ -14,6 +14,8 @@ import { CostInvoicesComponent } from './components/invoices/cost-invoices/cost-
 import { AddInvoiceComponent } from './components/invoices/add-invoice/add-invoice.component';
 import { EditInvoiceComponent } from './components/invoices/edit-invoice/edit-invoice.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { InvoiceTypePipe } from './pipes/invoice-type.pipe';
+import { UploadComponent } from './components/upload/upload.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +28,9 @@ import { ReactiveFormsModule } from '@angular/forms';
     NavbarComponent,
     CostInvoicesComponent,
     AddInvoiceComponent,
-    EditInvoiceComponent
+    EditInvoiceComponent,
+    InvoiceTypePipe,
+    UploadComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

@@ -9,7 +9,7 @@
     <tr>
       <th class="col-md-1 col-sm-1 col-xs-1">Id</th>
       <th class="col-md-1 col-sm-1 col-xs-1">Numer</th>
-      <th class="col-md-1 col-sm-1 col-xs-1">Sprzedawca</th>
+      <th class="col-md-1 col-sm-1 col-xs-1">Kontrahent</th>
       <th class="col-md-1 col-sm-1 col-xs-1">Data</th>
       <th class="col-md-1 col-sm-1 col-xs-1">Kwota brutto</th>
       <th class="col-md-1 col-sm-1 col-xs-1">Kwota netto</th>
@@ -20,8 +20,8 @@
   <tbody>
     <tr *ngFor="let invoice of invoices let i = index" [attr.data.index]="i">
       <td width="20">{{i + 1}}</td>
-      <td width="20">{{invoice.invoiceNumber}}</td>width="20"
-      <td width="20">{{invoice.seller}}</td>
+      <td width="20">{{invoice.invoiceNumber}}</td>
+      <td width="20">{{invoice.contractor}}</td>
       <td width="20">{{invoice.date}}</td>
       <td width="20">{{invoice.grossAmount}}</td>
       <td width="20">{{invoice.netAmount}}</td>

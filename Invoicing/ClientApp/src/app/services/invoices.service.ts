@@ -9,7 +9,6 @@ import { tap, catchError } from 'rxjs/operators';
 })
 export class InvoicesService {
   apiUrl: string = "api/invoices";
-
   
   constructor(private http: HttpClient) {
   }
@@ -21,7 +20,6 @@ export class InvoicesService {
 
     return this.http.get<Invoice[]>(this.apiUrl, httpOptions)
       .pipe(
-        tap(heroes => console.log('fetched invoices')),
         catchError(this.handleError('getInvoices', []))
       );
   }
@@ -34,13 +32,12 @@ export class InvoicesService {
     );
   }
 
-  addInvoice(invoice): Observable<Invoice> {
+  addInvoice(invoice: Invoice): Observable<Invoice> {
     const httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     };
 
     return this.http.post<Invoice>(`${this.apiUrl}`, invoice, httpOptions).pipe(
-      tap((todo: Invoice) => console.log(`added invoice w/ id=${todo.id}`)),
       catchError(this.handleError<Invoice>('addInvoice'))
     );
   }
