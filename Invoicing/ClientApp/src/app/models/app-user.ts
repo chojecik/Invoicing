@@ -3,6 +3,7 @@ import { UserRegistrationInterface } from '../interfaces/user-registration-inter
 export class AppUser implements UserRegistrationInterface{
 
   constructor(
+    public id: number,
     public email: string,
     public password: string,
     public firstName: string,

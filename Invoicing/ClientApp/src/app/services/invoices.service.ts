@@ -3,22 +3,34 @@ import { Observable, of } from 'rxjs';
 import { Invoice } from '../models/invoice';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { tap, catchError } from 'rxjs/operators';
+import { InvoiceType } from '../enums/invoice-type.enum';
+import { StorageService } from './storage.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class InvoicesService {
   apiUrl: string = "api/invoices";
-  
-  constructor(private http: HttpClient) {
+
+  constructor(private http: HttpClient, private storageService: StorageService) {
   }
 
-  getInvoices(): Observable<Invoice[]> {
+  getInvoices(type: InvoiceType): Observable<Invoice[]> {
+    let url = "";
     const httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     };
 
-    return this.http.get<Invoice[]>(this.apiUrl, httpOptions)
+    switch (type) {
+      case InvoiceType.Cost:
+        url = this.apiUrl + "/cost/";
+        break;
+      case InvoiceType.Sale:
+        url = this.apiUrl + "/sale/";
+        break;
+    }
+
+    return this.http.get<Invoice[]>(url + this.storageService.getItem("userId"), httpOptions)
       .pipe(
         catchError(this.handleError('getInvoices', []))
       );

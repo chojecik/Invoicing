@@ -41,6 +41,7 @@ export class AuthService {
           this.storageService.setItem('auth_token', user.token);
           this.storageService.setItem('email', user.email);
           this.storageService.setItem('firstName', user.firstName);
+          this.storageService.setItem('userId', user.id.toString());
           this.loggedIn = true;
           this._authNavStatusSource.next(true);
         }
@@ -51,6 +52,7 @@ export class AuthService {
     this.storageService.removeItem('auth_token');
     this.storageService.removeItem('email');
     this.storageService.removeItem('firstName');
+    this.storageService.removeItem('userId');
     this.loggedIn = false;
     this._authNavStatusSource.next(false);
     this.router.navigate(['/welcome']);

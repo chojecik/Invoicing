@@ -1,21 +1,29 @@
-﻿using Invoicing.BusinessLogic.Interfaces;
+﻿using Invoicing.BusinessLogic.Helpers;
+using Invoicing.BusinessLogic.Interfaces;
 using Invoicing.Core;
 using Invoicing.Core.Database.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Security.Claims;
+using System.Text;
 
 namespace Invoicing.BusinessLogic.Services
 {
     public class UserService : IUserService
     {
         private readonly DataContext _context;
+        private readonly AppSettings _appSettings;
 
-        public UserService(DataContext context)
+        public UserService(DataContext context, IOptions<AppSettings> appSettings)
         {
             _context = context;
+            _appSettings = appSettings.Value;
         }
 
         public IEnumerable<User> GetAll()
@@ -65,12 +73,7 @@ namespace Invoicing.BusinessLogic.Services
 
         public User Authenticate(string email, string password)
         {
-            if(string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
-            {
-                return null;
-            }
-
-            var user = _context.Users.FirstOrDefault(u => u.Email.Equals(email));
+            var user = _context.Users.SingleOrDefault(u => u.Email.Equals(email));
 
             if (user == null)
             {
@@ -81,6 +84,21 @@ namespace Invoicing.BusinessLogic.Services
             {
                 return null;
             }
+
+            // authentication successful so generate jwt token
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new Claim[]
+                {
+                    new Claim(ClaimTypes.Name, user.UserId.ToString())
+                }),
+                Expires = DateTime.Now.AddDays(7),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            user.Token = tokenHandler.WriteToken(token);
 
             return user;
         }

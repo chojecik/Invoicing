@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { InvoicesService} from '../../../services/invoices.service';
 import { Invoice } from '../../../models/invoice';
+import { InvoiceType } from '../../../enums/invoice-type.enum';
 
 @Component({
   selector: 'app-cost-invoices',
@@ -13,7 +14,7 @@ export class CostInvoicesComponent implements OnInit {
   constructor(private invoicesSevice: InvoicesService) { }
 
   ngOnInit() {
-    this.invoicesSevice.getInvoices()
+    this.invoicesSevice.getInvoices(InvoiceType.Cost)
       .subscribe(res => {
         this.invoices = res;
       }, err => {

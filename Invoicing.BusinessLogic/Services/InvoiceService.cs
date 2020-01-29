@@ -47,6 +47,7 @@ namespace Invoicing.BusinessLogic.Services
         public IEnumerable<Invoice> GetAll()
         {
             return _context.Invoices
+                .Include(x => x.Attachment)
                 .AsNoTracking();
         }
 

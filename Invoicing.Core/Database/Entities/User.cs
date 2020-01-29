@@ -26,5 +26,8 @@ namespace Invoicing.Core.Database.Entities
         public byte[] PasswordHash { get; set; }
 
         public byte[] PasswordSalt { get; set; }
+
+        [NotMapped]
+        public string Token { get; set; }
     }
 }

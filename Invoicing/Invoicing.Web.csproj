@@ -34,6 +34,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Helpers\AppSettings.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="ClientApp\src\app\components\account\" />
     <Folder Include="ClientApp\src\app\components\invoices\" />
     <Folder Include="ClientApp\src\app\models\" />

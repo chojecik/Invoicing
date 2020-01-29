@@ -24,10 +24,16 @@ namespace Invoicing.Web.Controllers
         }
 
         // GET: api/<controller>
-        [HttpGet]
-        public IActionResult Get()
+        [HttpGet("cost/{userId}")]
+        public IActionResult GetCostInvoices(int userId)
         {
-            return new JsonResult(_invoiceService.GetAll());    //TODO wyswietlac tylko faktury obecnego uzytkownika, zwraca ViewModel
+            return new JsonResult(_mapper.Map<List<InvoiceModel>>(_invoiceService.GetAll()));    //TODO wyswietlac tylko faktury obecnego uzytkownika,
+        }
+
+        [HttpGet("sale/{userId}")]
+        public IActionResult GetSaleInvoices(int userId)
+        {
+            return new JsonResult(_mapper.Map<List<InvoiceModel>>(_invoiceService.GetAll()));    //TODO wyswietlac tylko faktury obecnego uzytkownika
         }
 
         // GET api/<controller>/5
