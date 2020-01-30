@@ -23,14 +23,14 @@ export class InvoicesService {
 
     switch (type) {
       case InvoiceType.Cost:
-        url = this.apiUrl + "/cost/";
+        url = this.apiUrl + "/cost";
         break;
       case InvoiceType.Sale:
-        url = this.apiUrl + "/sale/";
+        url = this.apiUrl + "/sale";
         break;
     }
 
-    return this.http.get<Invoice[]>(url + this.storageService.getItem("userId"), httpOptions)
+    return this.http.get<Invoice[]>(url, httpOptions)
       .pipe(
         catchError(this.handleError('getInvoices', []))
       );

@@ -3,12 +3,14 @@ using AutoMapper;
 using Invoicing.BusinessLogic.Interfaces;
 using Invoicing.Core.Database.Entities;
 using Invoicing.Web.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Invoicing.Web.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     public class InvoicesController : Controller
     {
@@ -24,13 +26,14 @@ namespace Invoicing.Web.Controllers
         }
 
         // GET: api/<controller>
-        [HttpGet("cost/{userId}")]
-        public IActionResult GetCostInvoices(int userId)
+        [HttpGet("cost")]
+        public IActionResult GetCostInvoices()
         {
+            int.TryParse(HttpContext.User.Identity.Name, out int userId);
             return new JsonResult(_mapper.Map<List<InvoiceModel>>(_invoiceService.GetAll()));    //TODO wyswietlac tylko faktury obecnego uzytkownika,
         }
 
-        [HttpGet("sale/{userId}")]
+        [HttpGet("sale")]
         public IActionResult GetSaleInvoices(int userId)
         {
             return new JsonResult(_mapper.Map<List<InvoiceModel>>(_invoiceService.GetAll()));    //TODO wyswietlac tylko faktury obecnego uzytkownika
@@ -44,9 +47,10 @@ namespace Invoicing.Web.Controllers
         }
 
         // POST api/<controller>
-        [HttpPost, DisableRequestSizeLimit]
+        [HttpPost]
         public IActionResult Post([FromBody]InvoiceModel model)
         {
+            int.TryParse(HttpContext.User.Identity.Name, out int userId);
             model.FileExtension = _fileService.GetFileExtension(model.FilePath);
 
             if(!ModelState.IsValid)

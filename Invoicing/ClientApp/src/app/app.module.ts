@@ -16,6 +16,7 @@ import { EditInvoiceComponent } from './components/invoices/edit-invoice/edit-in
 import { ReactiveFormsModule } from '@angular/forms';
 import { InvoiceTypePipe } from './pipes/invoice-type.pipe';
 import { UploadComponent } from './components/upload/upload.component';
+import { CustomHttpInterceptor } from './middlewares/custom-http-interceptor';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,9 @@ import { UploadComponent } from './components/upload/upload.component';
       { path: '**', redirectTo: 'welcome' },
     ])
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: CustomHttpInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
