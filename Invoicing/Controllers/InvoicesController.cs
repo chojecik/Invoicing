@@ -2,6 +2,7 @@
 using AutoMapper;
 using Invoicing.BusinessLogic.Interfaces;
 using Invoicing.Core.Database.Entities;
+using Invoicing.Core.Enums;
 using Invoicing.Web.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -17,26 +18,23 @@ namespace Invoicing.Web.Controllers
         private readonly IMapper _mapper;
         private readonly IInvoiceService _invoiceService;
         private readonly IFileService _fileService;
+        private readonly IUserService _userService;
 
-        public InvoicesController(IMapper mapper, IInvoiceService invoiceService, IFileService fileService)
+        public InvoicesController(IMapper mapper, IInvoiceService invoiceService, IFileService fileService, IUserService userService)
         {
             _mapper = mapper;
             _invoiceService = invoiceService;
             _fileService = fileService;
+            _userService = userService;
         }
 
         // GET: api/<controller>
-        [HttpGet("cost")]
-        public IActionResult GetCostInvoices()
+        [HttpGet("invoices/{type}")]
+        public IActionResult GetCostInvoices(int type)
         {
             int.TryParse(HttpContext.User.Identity.Name, out int userId);
-            return new JsonResult(_mapper.Map<List<InvoiceModel>>(_invoiceService.GetAll()));    //TODO wyswietlac tylko faktury obecnego uzytkownika,
-        }
-
-        [HttpGet("sale")]
-        public IActionResult GetSaleInvoices(int userId)
-        {
-            return new JsonResult(_mapper.Map<List<InvoiceModel>>(_invoiceService.GetAll()));    //TODO wyswietlac tylko faktury obecnego uzytkownika
+            return new JsonResult(_mapper
+                .Map<List<InvoiceModel>>(_userService.GerUsersInvoicesByType(userId, (InvoiceType)type)));    
         }
 
         // GET api/<controller>/5
@@ -59,7 +57,9 @@ namespace Invoicing.Web.Controllers
             }
 
             var invoice = _mapper.Map<Invoice>(model);
-            _invoiceService.Add(invoice);
+            var user = _userService.GetById(userId);
+            user.Invoices.Add(invoice);
+            _userService.Update(user);
             //TODO usunąć plik z TempUpload i zapisać w docelowym katalogu
             return Ok(invoice);
         }

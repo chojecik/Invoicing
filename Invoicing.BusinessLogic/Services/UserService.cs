@@ -2,6 +2,7 @@
 using Invoicing.BusinessLogic.Interfaces;
 using Invoicing.Core;
 using Invoicing.Core.Database.Entities;
+using Invoicing.Core.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -111,6 +112,27 @@ namespace Invoicing.BusinessLogic.Services
             }
         }
 
+        public User Update(User entity)
+        {
+            if (entity != null)
+            {
+                _context.Update(entity);
+                _context.SaveChanges();
+                return entity;
+            }
+            return null;
+        }
+
+        public IEnumerable<Invoice> GerUsersInvoicesByType(int userId, InvoiceType type)
+        {
+            return _context.Users
+                .Include(user => user.Invoices)
+                .FirstOrDefault(user => user.UserId == userId)
+                .Invoices
+                .Where(invoice => invoice.Type == type)
+                .ToList();
+        }
+
         private static void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
             if (string.IsNullOrWhiteSpace(password))
@@ -153,6 +175,11 @@ namespace Invoicing.BusinessLogic.Services
 
                 return true;
             }
+        }
+
+        public User Add(User entity)
+        {
+            throw new NotImplementedException();
         }
     }
 }

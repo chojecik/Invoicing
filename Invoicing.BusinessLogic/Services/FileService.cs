@@ -10,6 +10,7 @@ namespace Invoicing.BusinessLogic.Services
     public class FileService : IFileService
     {
         private const string tempDirectory = "C:\\TempUpload\\";
+        private const string destinationDirectory = "D:\\Faktury\\";
         public void DeleteFile()
         {
             throw new NotImplementedException();

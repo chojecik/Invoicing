@@ -20,6 +20,25 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Database\Migrations\20200201113610_RelationshipBetweenUserAndInvoice.cs" />
+    <Compile Remove="Database\Migrations\20200201113610_RelationshipBetweenUserAndInvoice.Designer.cs" />
+    <Compile Remove="Database\Migrations\20200201113715_RelationshipBetweenUsersAndInvoices.cs" />
+    <Compile Remove="Database\Migrations\20200201113715_RelationshipBetweenUsersAndInvoices.Designer.cs" />
+    <Compile Remove="Database\Migrations\20200201124940_RelationshipBetweenUsersAndInvoices.cs" />
+    <Compile Remove="Database\Migrations\20200201124940_RelationshipBetweenUsersAndInvoices.Designer.cs" />
+    <Compile Remove="Database\Migrations\20200201125131_RelationshipBetweenUsersAndInvoices.cs" />
+    <Compile Remove="Database\Migrations\20200201125131_RelationshipBetweenUsersAndInvoices.Designer.cs" />
+    <Compile Remove="Database\Migrations\20200201125404_RelationshipBetweenUsersAndInvoices.cs" />
+    <Compile Remove="Database\Migrations\20200201125404_RelationshipBetweenUsersAndInvoices.Designer.cs" />
+    <Compile Remove="Database\Migrations\20200201130652_RelationshipBetweenUsersAndInvoices.cs" />
+    <Compile Remove="Database\Migrations\20200201130652_RelationshipBetweenUsersAndInvoices.Designer.cs" />
+    <Compile Remove="Database\Migrations\20200201130955_UsersInvoicesrelationship.cs" />
+    <Compile Remove="Database\Migrations\20200201130955_UsersInvoicesrelationship.Designer.cs" />
+    <Compile Remove="Database\Migrations\20200201131050_UsersInvoicesRelationship.cs" />
+    <Compile Remove="Database\Migrations\20200201131050_UsersInvoicesRelationship.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="9.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.1.1" />

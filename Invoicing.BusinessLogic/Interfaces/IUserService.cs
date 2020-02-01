@@ -1,4 +1,5 @@
 ﻿using Invoicing.Core.Database.Entities;
+using Invoicing.Core.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -8,28 +9,8 @@ namespace Invoicing.BusinessLogic.Interfaces
     /// <summary>
     /// Interface containing methods for User class
     /// </summary>
-    public interface IUserService
+    public interface IUserService : IService<User>
     {
-        /// <summary>
-        /// Gets all records of User type from the database
-        /// </summary>
-        /// <returns>Returns the IEmumerable collection of T type</returns>
-        IEnumerable<User> GetAll();
-
-        /// <summary>
-        /// Gets the record from the database by it's ID
-        /// </summary>
-        /// <param name="id">ID of the record</param>
-        /// <returns>Returns single object of T type</returns>
-        User GetById(int id);
-
-        /// <summary>
-        /// Gets records of type User from the database by provided condition
-        /// </summary>
-        /// <param name="predicate">Condition</param>
-        /// <returns>Returns IEnumerabl collection of T type</returns>
-        IEnumerable<User> Find(Expression<Func<User, bool>> predicate);
-
         /// <summary>
         /// Inserts new user to the database
         /// </summary>
@@ -47,9 +28,11 @@ namespace Invoicing.BusinessLogic.Interfaces
         User Authenticate(string email, string password);
 
         /// <summary>
-        /// Deletes the record from the database
+        /// Gets user's invoices
         /// </summary>
-        /// <param name="entity">Entity to delete</param>
-        void Delete(User entity);
+        /// <param name="userId">Id of the user</param>
+        /// <param name="type">Type of invoice (cost/sale)</param>
+        /// <returns>Returns collection of user's invoices</returns>
+        IEnumerable<Invoice> GerUsersInvoicesByType(int userId, InvoiceType type);
     }
 }

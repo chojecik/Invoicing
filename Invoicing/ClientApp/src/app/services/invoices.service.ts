@@ -16,21 +16,12 @@ export class InvoicesService {
   }
 
   getInvoices(type: InvoiceType): Observable<Invoice[]> {
-    let url = "";
+    let url = this.apiUrl + "/invoices/";
     const httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     };
 
-    switch (type) {
-      case InvoiceType.Cost:
-        url = this.apiUrl + "/cost";
-        break;
-      case InvoiceType.Sale:
-        url = this.apiUrl + "/sale";
-        break;
-    }
-
-    return this.http.get<Invoice[]>(url, httpOptions)
+    return this.http.get<Invoice[]>(url + type, httpOptions)
       .pipe(
         catchError(this.handleError('getInvoices', []))
       );

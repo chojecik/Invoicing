@@ -1,10 +1,16 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Invoicing.Core.Database.Entities
 {
     public class User
     {
+        public User()
+        {
+            this.Invoices = new HashSet<Invoice>();
+        }
+
         [Key]
         [Required]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -29,5 +35,7 @@ namespace Invoicing.Core.Database.Entities
 
         [NotMapped]
         public string Token { get; set; }
+
+        public virtual ICollection<Invoice> Invoices { get; set; }
     }
 }

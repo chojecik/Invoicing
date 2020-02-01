@@ -24,7 +24,7 @@ export class CustomHttpInterceptor implements HttpInterceptor{
     if (token) {
       headerSettings['Authorization'] = 'Bearer ' + token;
     }
-    headerSettings['Content-Type'] = 'application/json';
+    //headerSettings['Content-Type'] = 'application/json';
     const newHeader = new HttpHeaders(headerSettings);
 
     changedRequest = req.clone({
