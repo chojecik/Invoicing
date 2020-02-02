@@ -14,17 +14,24 @@
       <div class="col-sm-8">
         <input type="date" class="form-control" formControlName="date" />
       </div>
-      <label class="col-sm-4 col-form-label">Cena brutto </label>
+      <label class="col-sm-4 col-form-label">Cena netto</label>
       <div class="col-sm-8">
-        <input type="number" class="form-control" formControlName="grossAmount" />
+        <input type="number" class="form-control" formControlName="netAmount" (change)="netAmountChanged($event)" />
       </div>
-      <label class="col-sm-4 col-form-label">Cena netto </label>
+      <label class="col-sm-4 col-form-label">Vat %</label>
       <div class="col-sm-8">
-        <input type="number" class="form-control" formControlName="netAmount" />
+        <select class="form-control" formControlName="vatRate" (change)="vatRateChanged($event)">
+          <option>Wybierz stawkę podatku</option>
+          <option *ngFor="let rate of vatRates">{{rate}}</option>
+        </select>
       </div>
       <label class="col-sm-4 col-form-label">VAT </label>
       <div class="col-sm-8">
-        <input type="number" class="form-control" formControlName="vatAmount" />
+        <input type="number" class="form-control" formControlName="vatAmount" value="{{vatAmountCalculated}}" readonly />
+      </div>
+      <label class="col-sm-4 col-form-label">Cena brutto </label>
+      <div class="col-sm-8">
+        <input type="number" class="form-control" formControlName="grossAmount" value="{{grossAmountCalculated}}" readonly />
       </div>
       <label class="col-sm-4 col-form-label">Typ faktury </label>
       <div class="col-sm-8">

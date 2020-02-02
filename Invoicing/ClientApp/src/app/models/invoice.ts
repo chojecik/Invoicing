@@ -6,6 +6,7 @@ export class Invoice {
   contractor: string;
   date: Date;
   grossAmount: number;
+  vatRate: number;
   netAmount: number;
   vatAmount: number;
   type: InvoiceType;

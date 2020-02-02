@@ -21,6 +21,9 @@ namespace Invoicing.Web.Models
         public decimal GrossAmount { get; set; }
 
         [Required]
+        public int VatRate { get; set; }
+
+        [Required]
         public decimal NetAmount { get; set; }
 
         [Required]

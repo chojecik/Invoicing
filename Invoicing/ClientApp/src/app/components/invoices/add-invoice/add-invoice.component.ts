@@ -16,6 +16,11 @@ export class AddInvoiceComponent implements OnInit {
   invoice: Invoice = new Invoice();
   invoiceType: number;
   filePath: string;
+  vatRates: number[] = [23, 8, 5, 0];
+  grossAmountCalculated: number;
+  vatAmountCalculated: number;
+  vatValue: number;
+  netValue: number;
 
   constructor(private formBuilder: FormBuilder, private router: Router, private invoiceService: InvoicesService) { }
 
@@ -25,15 +30,21 @@ export class AddInvoiceComponent implements OnInit {
       invoiceNumber: ['', Validators.required],
       contractor: ['', Validators.required],
       date: ['', Validators.required],
-      grossAmount: ['', Validators.required],
       netAmount: ['', Validators.required],
-      vatAmount: ['', Validators.required],
+      vatRate: ['', Validators.required],
+      grossAmount: [this.grossAmountCalculated],
+      vatAmount: [this.vatAmountCalculated],
       type: [this.invoiceType],
       filePath: [this.filePath]
     });
   }
 
   addInvoice(form) {
+    debugger;
+    this.invoiceForm.patchValue({ filePath: this.filePath });
+    this.invoiceForm.patchValue({ grossAmount: this.grossAmountCalculated });
+    this.invoiceForm.patchValue({ vatAmount: this.vatAmountCalculated });
+    this.invoiceForm.patchValue({ vatRate: this.vatValue });
     this.invoiceForm.patchValue({ filePath: this.filePath });
     this.invoiceService.addInvoice(this.invoiceForm.value)
       .subscribe(
@@ -47,5 +58,20 @@ export class AddInvoiceComponent implements OnInit {
 
   uploadFinished = (event) => {
     this.filePath = event;
-}
+  }
+
+  netAmountChanged(event) {
+    this.netValue = Number(event.target.value);
+    this.calculateReadonlyValues();
+  }
+
+  vatRateChanged(event) {
+    this.vatValue = Number(event.target.value);
+    this.calculateReadonlyValues();
+  }
+
+  calculateReadonlyValues() {
+    this.vatAmountCalculated = Math.round(((this.netValue * this.vatValue / 100) + Number.EPSILON) * 100) / 100
+    this.grossAmountCalculated = this.netValue + this.vatAmountCalculated;
+  }
 }

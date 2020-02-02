@@ -25,6 +25,9 @@ namespace Invoicing.Core.Database.Entities
         public decimal GrossAmount { get; set; }
 
         [Required]
+        public int VatRate { get; set; }
+
+        [Required]
         [Column(TypeName = "decimal(18,2)")]
         public decimal NetAmount { get; set; }
 
