@@ -32,4 +32,8 @@ export class CostInvoicesComponent implements OnInit {
       );
   }
 
+  downloadFile(invoiceId: number) {
+
+  }
+
 }

@@ -12,7 +12,6 @@ export class CustomHttpInterceptor implements HttpInterceptor{
   constructor(private storageService: StorageService) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    debugger;
     const token = this.storageService.getItem("auth_token");
     let changedRequest = req;
     // HttpHeader object immutable - copy values

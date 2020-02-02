@@ -36,11 +36,12 @@ export class AddInvoiceComponent implements OnInit {
   addInvoice(form) {
     this.invoiceForm.patchValue({ filePath: this.filePath });
     this.invoiceService.addInvoice(this.invoiceForm.value)
-      .subscribe(res => {
-        let id = res['_id'];
-        this.router.navigate(['/']);//TODO navigate to all invoices view on success
-      }, (err) => {
-        console.log(err);
+      .subscribe(
+        res => {
+          this.router.navigate(['/cost-invoices']);
+        },
+        err => {
+          console.log(err);
       });
   }
 

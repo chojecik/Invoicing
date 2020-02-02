@@ -43,6 +43,7 @@ namespace Invoicing.BusinessLogic.Interfaces
         /// <param name="sourcePath">Absolute path of the file in temporary directory</param>
         /// <param name="type">Type of the invoice (cost/sale)</param>
         /// <param name="date">Date of the invoice</param>
-        void MoveFile(string sourcePath, InvoiceType type, DateTime date);
+        /// <returns>Returns file's new path</returns>
+        string MoveFile(string sourcePath, InvoiceType type, DateTime date);
     }
 }

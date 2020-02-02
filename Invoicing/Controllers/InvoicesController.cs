@@ -57,10 +57,10 @@ namespace Invoicing.Web.Controllers
             }
 
             var invoice = _mapper.Map<Invoice>(model);
+            invoice.Attachment.DirectoryPath = _fileService.MoveFile(invoice.Attachment.DirectoryPath, invoice.Type, invoice.Date);
             var user = _userService.GetById(userId);
             user.Invoices.Add(invoice);
             _userService.Update(user);
-            _fileService.MoveFile(invoice.Attachment.DirectoryPath, invoice.Type, invoice.Date);
             return Ok(invoice);
         }
 

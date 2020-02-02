@@ -54,15 +54,17 @@ namespace Invoicing.BusinessLogic.Services
             throw new NotImplementedException();
         }
 
-        public void MoveFile(string sourceFile, InvoiceType type, DateTime date)
+        public string MoveFile(string sourcePath, InvoiceType type, DateTime date)
         {
-            var fileName = sourceFile.Split('\\').Last();
+            var fileName = sourcePath.Split('\\').Last();
 
-            var destPath = GenerateDirectoryName(type, date);
-            var destFile = Path.Combine(destPath, fileName);
+            var destDirectory = GenerateDirectoryName(type, date);
+            var destPath = Path.Combine(destDirectory, fileName);
 
-           Directory.CreateDirectory(destPath);
-           File.Move(sourceFile, destFile);
+            Directory.CreateDirectory(destDirectory);
+            File.Move(sourcePath, destPath);
+
+            return destPath;
         }
 
         private string GenerateDirectoryName(InvoiceType type, DateTime date)
@@ -73,6 +75,8 @@ namespace Invoicing.BusinessLogic.Services
 
             sb.Append(date.Year);
             sb.Append("\\");
+            sb.Append(date.Month);
+            sb.Append(" - ");
             sb.Append(((Month)date.Month).GetDescription());
             sb.Append("\\");
 
@@ -81,13 +85,13 @@ namespace Invoicing.BusinessLogic.Services
             {
                 sb.Append("Faktury kosztowe");
             }
-            else if(type == InvoiceType.Sale)
+            else if (type == InvoiceType.Sale)
             {
                 sb.Append("Faktury sprzedaży");
             }
             sb.Append("\\");
 
-            return sb.ToString();
+            return sb.ToString();           //return type D:\Faktury\year\monthNumber - monthName\invoiceType\fileName.ext
         }
     }
 }

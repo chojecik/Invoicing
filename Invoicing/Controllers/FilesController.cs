@@ -2,6 +2,7 @@
 using Invoicing.BusinessLogic.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -9,10 +10,11 @@ namespace Invoicing.Web.Controllers
 {
     [Authorize]
     [Route("api/[controller]")]
-    public class UploadController : Controller
+    public class FilesController : Controller
     {
         private readonly IFileService _fileService;
-        public UploadController(IFileService fileService)
+        private readonly string[] ValidExtensions = { "pdf", "doc", "docx", "xls", "xlsx", "png", "jpg", "jpeg" };
+        public FilesController(IFileService fileService)
         {
             _fileService = fileService;
         }
@@ -32,12 +34,18 @@ namespace Invoicing.Web.Controllers
         }
 
         // POST api/<controller>
-        [HttpPost, DisableRequestSizeLimit]
+        [HttpPost("upload"), DisableRequestSizeLimit]
         public IActionResult Upload()
         {
             try
             {
-                var path = _fileService.ExportFile(Request.Form.Files[0]);
+                var file = Request.Form.Files[0];
+
+                if(!ValidExtensions.Contains(_fileService.GetFileExtension(file.FileName)))
+                {
+                    return BadRequest("Nieprawidłowe rozszerzenie pliku. Dopuszczalne rozszerzenia to: pdf, doc, docx, xls, xlsx, png, jpg, jpeg");
+                }
+                var path = _fileService.ExportFile(file);
                 return Json(path);
             }
             catch (System.Exception ex)

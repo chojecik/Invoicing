@@ -35,14 +35,14 @@ namespace Invoicing.BusinessLogic.Interfaces
         /// </summary>
         /// <param name="entity">Entity to insert</param>
         /// <returns>Returns created entity of T type</returns>
-        T Add(T entity);
+        void Add(T entity);
 
         /// <summary>
         /// Updates the record in the database
         /// </summary>
         /// <param name="entity">Record to update</param>
         /// <returns>Returns updated entity of T type</returns>
-        T Update(T entity);
+        void Update(T entity);
 
         /// <summary>
         /// Deletes the record from the database

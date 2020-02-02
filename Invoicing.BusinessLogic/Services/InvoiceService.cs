@@ -17,15 +17,13 @@ namespace Invoicing.BusinessLogic.Services
             _context = context;
         }
 
-        public Invoice Add(Invoice entity)
+        public void Add(Invoice entity)
         {
             if(entity != null)
             {
                 _context.Invoices.Add(entity);
                 _context.SaveChanges();
-                //TODO return 
             }
-            return null;
         }
 
         public void Delete(Invoice entity)
@@ -62,15 +60,13 @@ namespace Invoicing.BusinessLogic.Services
             return null;
         }
 
-        public Invoice Update(Invoice entity)
+        public void Update(Invoice entity)
         {
             if(entity != null)
             {
                 _context.Invoices.Update(entity);
                 _context.SaveChanges();
-                //TODO return
             }
-            return null;
         }
     }
 }

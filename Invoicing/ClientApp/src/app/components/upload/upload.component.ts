@@ -9,7 +9,8 @@ import { HttpEventType, HttpClient } from '@angular/common/http';
 export class UploadComponent{
   public progress: number;
   public message: string;
-  private url: string = "api/upload";
+  private url: string = "api/files/upload";
+  public success: boolean = true;
   @Output() public onUploadFinished = new EventEmitter();
 
   constructor(private http: HttpClient) { }
@@ -25,14 +26,24 @@ export class UploadComponent{
     formData.append('file', fileToUpload, fileToUpload.name);
 
     this.http.post(this.url, formData, { reportProgress: true, observe: 'events' })
-      .subscribe(event => {
-        if (event.type === HttpEventType.UploadProgress)
-          this.progress = Math.round(100 * event.loaded / event.total);
-        else if (event.type === HttpEventType.Response) {
-          this.message = 'Upload success.';
-          this.onUploadFinished.emit(event.body);
+      .subscribe(
+        event => {
+          this.success = true;
+          if (event.type === HttpEventType.UploadProgress) {
+            this.progress = Math.round(100 * event.loaded / event.total);
+          }
+          else if (event.type === HttpEventType.Response) {
+            this.message = 'Upload success.';
+            this.onUploadFinished.emit(event.body);
+          }
+        },
+        err => {
+          this.success = false;
+          this.progress = null;
+          this.message = err.error;
+          this.onUploadFinished.emit(null);
         }
-      });
+      );
   }
 
 

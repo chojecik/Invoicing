@@ -112,15 +112,13 @@ namespace Invoicing.BusinessLogic.Services
             }
         }
 
-        public User Update(User entity)
+        public void Update(User entity)
         {
             if (entity != null)
             {
                 _context.Update(entity);
                 _context.SaveChanges();
-                return entity;
             }
-            return null;
         }
 
         public IEnumerable<Invoice> GerUsersInvoicesByType(int userId, InvoiceType type)
@@ -177,7 +175,7 @@ namespace Invoicing.BusinessLogic.Services
             }
         }
 
-        public User Add(User entity)
+        public void Add(User entity)
         {
             throw new NotImplementedException();
         }

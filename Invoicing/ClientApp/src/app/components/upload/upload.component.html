@@ -3,11 +3,16 @@
     <input type="file" #file placeholder="Wybierz plik" (change)="uploadFile(file.files)" style="display:none;">
     <button type="button" class="btn btn-success" (click)="file.click()">Upload File</button>
   </div>
-  <div class="col-sm-8">
-    <span class="upload" *ngIf="progress > 0">
+  <div class="col-sm-8" *ngIf="success">
+    <span class="upload upload-success" *ngIf="progress > 0">
       {{progress}}%
     </span>
-    <span class="upload" *ngIf="message">
+    <span class="upload upload-success" *ngIf="message">
+      {{message}}
+    </span>
+  </div>
+  <div class="col-sm-8" *ngIf="!success">
+    <span class="upload upload-error" *ngIf="message">
       {{message}}
     </span>
   </div>
