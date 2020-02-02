@@ -38,7 +38,7 @@ export class AddInvoiceComponent implements OnInit {
     this.invoiceService.addInvoice(this.invoiceForm.value)
       .subscribe(res => {
         let id = res['_id'];
-        this.router.navigate(['/']);
+        this.router.navigate(['/']);//TODO navigate to all invoices view on success
       }, (err) => {
         console.log(err);
       });

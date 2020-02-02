@@ -1,41 +1,52 @@
 <h2>
   Faktury kosztowe
-  <a class="float-right" [routerLink]="['/cost-invoices/add']">
-    <button type="button" class="btn btn-primary">Add</button>
-  </a>
 </h2>
-<table class="table table-responsive">
-  <thead>
-    <tr>
-      <th class="col-md-1 col-sm-1 col-xs-1">Id</th>
-      <th class="col-md-1 col-sm-1 col-xs-1">Numer</th>
-      <th class="col-md-1 col-sm-1 col-xs-1">Kontrahent</th>
-      <th class="col-md-1 col-sm-1 col-xs-1">Data</th>
-      <th class="col-md-1 col-sm-1 col-xs-1">Kwota brutto</th>
-      <th class="col-md-1 col-sm-1 col-xs-1">Kwota netto</th>
-      <th class="col-md-1 col-sm-1 col-xs-1">VAT</th>
-      <th class="col-md-1 col-sm-1 col-xs-1"></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let invoice of invoices let i = index" [attr.data.index]="i">
-      <td width="20">{{i + 1}}</td>
-      <td width="20">{{invoice.invoiceNumber}}</td>
-      <td width="20">{{invoice.contractor}}</td>
-      <td width="20">{{invoice.date}}</td>
-      <td width="20">{{invoice.grossAmount}}</td>
-      <td width="20">{{invoice.netAmount}}</td>
-      <td width="20">{{invoice.vatAmount}}</td>
-      <td width="250">
-        <button class="btn btn-primary" (click)="downloadFile(invoice.id)">Pobierz plik</button>
-        <button type="button" class="btn btn-danger mr-1" (click)="deleteInvoice(invoice.id, i)">Delete</button>
-        <a [routerLink]="['/cost-invoices/edit/', invoice.id]">
-          <button type="button" class="btn btn-primary">Edit</button>
-        </a>
-      </td>
-    </tr>
-    <tr *ngIf="invoices.length == 0">
-      <td style="text-align: center" colspan="8">Brak danych</td>
-    </tr>
-  </tbody>
-</table>
+<div>
+  <a class="float-left" [routerLink]="['/cost-invoices/add']">
+    <button type="button" class="btn add-btn">Dodaj fakturę kosztową</button>
+  </a>
+</div>
+<div>
+  <table class="table table-responsive fixed table-striped">
+    <thead class="thead-dark">
+      <tr>
+        <th>Lp.</th>
+        <th>Numer</th>
+        <th>Kontrahent</th>
+        <th>Data</th>
+        <th>Kwota brutto</th>
+        <th>Kwota netto</th>
+        <th>VAT</th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let invoice of invoices let i = index" [attr.data.index]="i">
+        <td>{{i + 1}}</td>
+        <td>{{invoice.invoiceNumber}}</td>
+        <td>{{invoice.contractor}}</td>
+        <td>{{invoice.date | date:'yyyy-MM-dd'}}</td>
+        <td>{{invoice.grossAmount}}</td>
+        <td>{{invoice.netAmount}}</td>
+        <td>{{invoice.vatAmount}}</td>
+        <td>
+          <button class="btn btn-primary" (click)="downloadFile(invoice.id)">Pobierz</button>
+        </td>
+        <td>
+          <a [routerLink]="['/cost-invoices/edit/', invoice.id]">
+            <button type="button" class="btn btn-primary">Edytuj</button>
+          </a>
+        </td>
+        <td>
+          <button type="button" class="btn btn-danger mr-1" (click)="deleteInvoice(invoice.id, i)">Usuń</button>
+        </td>
+      </tr>
+      <tr *ngIf="invoices.length == 0">
+        <td style="text-align: center" colspan="8">Brak danych</td>
+      </tr>
+    </tbody>
+  </table>  
+</div>
+

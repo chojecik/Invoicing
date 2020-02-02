@@ -1,44 +1,46 @@
 <h2 class="text-center">Dodaj fakturę kosztową</h2>
-<form [formGroup]="invoiceForm" (ngSubmit)="addInvoice(invoiceForm)">
-  <div class="form-group row">
-    <label class="col-sm-4 col-form-label">Numer faktury </label>
-    <div class="col-sm-8">
-      <input type="text" class="form-control" formControlName="invoiceNumber" />
+<div class="col-sm-6 offset-sm-3">
+  <form [formGroup]="invoiceForm" (ngSubmit)="addInvoice(invoiceForm)">
+    <div class="form-group row">
+      <label class="col-sm-4 col-form-label">Numer faktury </label>
+      <div class="col-sm-8">
+        <input type="text" class="form-control" formControlName="invoiceNumber" />
+      </div>
+      <label class="col-sm-4 col-form-label">Kontrahent </label>
+      <div class="col-sm-8">
+        <input type="text" class="form-control" formControlName="contractor" />
+      </div>
+      <label class="col-sm-4 col-form-label">Data zakupu</label>
+      <div class="col-sm-8">
+        <input type="date" class="form-control" formControlName="date" />
+      </div>
+      <label class="col-sm-4 col-form-label">Cena brutto </label>
+      <div class="col-sm-8">
+        <input type="number" class="form-control" formControlName="grossAmount" />
+      </div>
+      <label class="col-sm-4 col-form-label">Cena netto </label>
+      <div class="col-sm-8">
+        <input type="number" class="form-control" formControlName="netAmount" />
+      </div>
+      <label class="col-sm-4 col-form-label">VAT </label>
+      <div class="col-sm-8">
+        <input type="number" class="form-control" formControlName="vatAmount" />
+      </div>
+      <label class="col-sm-4 col-form-label">Typ faktury </label>
+      <div class="col-sm-8">
+        <input type="text" class="form-control" formControlName="type" value="{{invoiceType | invoiceType}}" readonly />
+      </div>
+      <label class="col-sm-4 col-form-label">Plik </label>
+      <div class="col-sm-8">
+        <input type="text" class="form-control" formControlName="filePath" value="{{filePath}}" readonly />
+      </div>
     </div>
-    <label class="col-sm-4 col-form-label">Kontrahent </label>
-    <div class="col-sm-8">
-      <input type="text" class="form-control" formControlName="contractor" />
+    <app-upload (onUploadFinished)="uploadFinished($event)"></app-upload>
+    <div class="form-group">
+      <button type="submit" class="btn btn-primary col-md-4" [disabled]="invoiceForm.invalid">Zapisz</button>
+      <a [routerLink]="['/']">
+        <button type="submit" class="btn btn-primary col-md-4 ml-1">Cofnij</button>
+      </a>
     </div>
-    <label class="col-sm-4 col-form-label">Data zakupu</label>
-    <div class="col-sm-8">
-      <input type="date" class="form-control" formControlName="date" />
-    </div>
-    <label class="col-sm-4 col-form-label">Cena brutto </label>
-    <div class="col-sm-8">
-      <input type="number" class="form-control" formControlName="grossAmount" />
-    </div>
-    <label class="col-sm-4 col-form-label">Cena netto </label>
-    <div class="col-sm-8">
-      <input type="number" class="form-control" formControlName="netAmount" />
-    </div>
-    <label class="col-sm-4 col-form-label">VAT </label>
-    <div class="col-sm-8">
-      <input type="number" class="form-control" formControlName="vatAmount" />
-    </div>
-    <label class="col-sm-4 col-form-label">Typ faktury </label>
-    <div class="col-sm-8">
-      <input type="text" class="form-control" formControlName="type" value="{{invoiceType | invoiceType}}" readonly />
-    </div>
-    <label class="col-sm-4 col-form-label">Plik </label>
-    <div class="col-sm-8">
-      <input type="text" class="form-control" formControlName="filePath" value="{{filePath}}" readonly />
-    </div>
-  </div>
-  <app-upload (onUploadFinished)="uploadFinished($event)"></app-upload>
-  <div class="form-group">
-    <button type="submit" class="btn btn-primary col-md-4" [disabled]="invoiceForm.invalid">Zapisz</button>
-    <a [routerLink]="['/']">
-      <button type="submit" class="btn btn-primary col-md-4 ml-1">Cofnij</button>
-    </a>
-  </div>
-</form>
+  </form>
+</div>

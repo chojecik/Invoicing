@@ -60,7 +60,7 @@ namespace Invoicing.Web.Controllers
             var user = _userService.GetById(userId);
             user.Invoices.Add(invoice);
             _userService.Update(user);
-            //TODO usunąć plik z TempUpload i zapisać w docelowym katalogu
+            _fileService.MoveFile(invoice.Attachment.DirectoryPath, invoice.Type, invoice.Date);
             return Ok(invoice);
         }
 
