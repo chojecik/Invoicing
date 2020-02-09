@@ -32,13 +32,20 @@ export class CostInvoicesComponent implements OnInit {
   }
 
   deleteInvoice(id, index) {
-    this.invoicesSevice.deleteInvoice(id)
-      .subscribe(res => {
-        this.invoices.splice(index, 1);
-      }, (err) => {
-        console.log(err);
-      }
-      );
+    if (window.confirm("Czy na pewno chcesz usunąć tą fakturę?")) {
+      this.invoicesSevice.deleteInvoice(id)
+        .subscribe(
+          () => {
+            this.invoices.splice(index, 1);
+            if (this.invoices.length === 0) {
+              this.tempInfo = "Brak danych";
+            }
+          },
+          (err) => {
+            console.log(err);
+          }
+        );
+    }
   }
 
   downloadFile(invoiceId: number) {

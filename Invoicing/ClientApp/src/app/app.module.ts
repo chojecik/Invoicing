@@ -19,6 +19,8 @@ import { UploadComponent } from './components/upload/upload.component';
 import { CustomHttpInterceptor } from './middlewares/custom-http-interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DatePipe } from '@angular/common';
+import { TaxesComponent } from './components/taxes/taxes.component';
+import { IgxCalendarModule } from 'igniteui-angular';
 
 @NgModule({
   declarations: [
@@ -33,7 +35,8 @@ import { DatePipe } from '@angular/common';
     AddInvoiceComponent,
     EditInvoiceComponent,
     InvoiceTypePipe,
-    UploadComponent
+    UploadComponent,
+    TaxesComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -41,6 +44,7 @@ import { DatePipe } from '@angular/common';
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
+    IgxCalendarModule,
     RouterModule.forRoot([
       { path: '', redirectTo: 'welcome', pathMatch: 'full' },
       { path: 'welcome', component: WelcomeComponent },
@@ -50,6 +54,7 @@ import { DatePipe } from '@angular/common';
       { path: 'home', component: HomeComponent },
       { path: 'login', component: LoginComponent },
       { path: 'register', component: RegisterComponent },
+      { path: 'taxes', component: TaxesComponent },
       { path: '**', redirectTo: 'welcome' },
     ])
   ],
@@ -59,4 +64,5 @@ import { DatePipe } from '@angular/common';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

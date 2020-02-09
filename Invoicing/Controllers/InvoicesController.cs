@@ -86,7 +86,9 @@ namespace Invoicing.Web.Controllers
             {
                 return BadRequest("Id must be positive value");
             }
-            _invoiceService.Delete(id);
+            var invoice = _invoiceService.GetById(id);
+            _fileService.DeleteFile(invoice.Attachment.DirectoryPath);
+            _invoiceService.Delete(invoice);
             return Ok();
         }
     }

@@ -17,7 +17,11 @@ namespace Invoicing.BusinessLogic.Services
 
         public void DeleteFile(string path)
         {
-            throw new NotImplementedException();
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
+            DeleteEmptyDirectories(destinationDirectory);
         }
 
         public string ExportFile(IFormFile file)
@@ -92,6 +96,18 @@ namespace Invoicing.BusinessLogic.Services
             sb.Append("\\");
 
             return sb.ToString();           //return type D:\Faktury\year\monthNumber - monthName\invoiceType\fileName.ext
+        }
+
+        private void DeleteEmptyDirectories(string startLocation)
+        {
+            foreach (var directory in Directory.GetDirectories(startLocation))
+            {
+                DeleteEmptyDirectories(directory);
+                if (!Directory.EnumerateFileSystemEntries(directory).Any())
+                {
+                    Directory.Delete(directory, false);
+                }
+            }
         }
     }
 }

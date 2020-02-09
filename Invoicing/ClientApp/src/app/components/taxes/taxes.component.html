@@ -1,0 +1,12 @@
+<p>taxes works!</p>
+<igx-month-picker [(ngModel)]="date" [formatOptions]="numericFormatOptions" [locale]="locale" (onSelection)="changed($event)"></igx-month-picker>
+
+
+<label class="col-sm-4 col-form-label">Rok </label>
+<div class="col-sm-8">
+  <input type="number" class="form-control" value="{{year}}" readonly />
+</div>
+<label class="col-sm-4 col-form-label">Miesiąc</label>
+<div class="col-sm-8">
+  <input type="number" class="form-control" value="{{month}}" readonly />
+</div>

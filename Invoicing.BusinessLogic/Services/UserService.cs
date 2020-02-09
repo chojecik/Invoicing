@@ -103,11 +103,10 @@ namespace Invoicing.BusinessLogic.Services
 
             return user;
         }
-        public void Delete(int id)
+        public void Delete(User entity)
         {
-            if (id > 0)
+            if (entity != null)
             {
-                var entity = _context.Users.FirstOrDefault(user => user.UserId == id);
                 _context.Remove(entity);
                 _context.SaveChanges();
             }
