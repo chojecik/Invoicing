@@ -26,10 +26,11 @@ namespace Invoicing.BusinessLogic.Services
             }
         }
 
-        public void Delete(Invoice entity)
+        public void Delete(int id)
         {
-            if (entity != null)
+            if (id > 0)
             {
+                var entity = _context.Invoices.FirstOrDefault(invoice => invoice.Id == id);
                 _context.Invoices.Remove(entity);
                 _context.SaveChanges();
             }
@@ -55,6 +56,7 @@ namespace Invoicing.BusinessLogic.Services
             {
                 return _context.Invoices
                     .AsNoTracking()
+                    .Include(x => x.Attachment)
                     .FirstOrDefault(x => x.Id == id);
             }
             return null;

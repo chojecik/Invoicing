@@ -6,6 +6,8 @@ namespace Invoicing.Web.Models
 {
     public class InvoiceModel
     {
+        public int Id { get; set; }
+
         [Required]
         [MaxLength(20)]
         public string InvoiceNumber { get; set; }

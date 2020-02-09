@@ -39,9 +39,17 @@ namespace Invoicing.Web.Controllers
 
         // GET api/<controller>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult Get(int id)
         {
-            return "value";
+            if(id <= 0)
+            {
+                return BadRequest("Id must be positive value");
+            }
+
+            var invoice = _invoiceService.GetById(id);
+
+            var invoiceModel = _mapper.Map<InvoiceModel>(invoice);
+            return new JsonResult(invoiceModel);
         }
 
         // POST api/<controller>
@@ -72,8 +80,14 @@ namespace Invoicing.Web.Controllers
 
         // DELETE api/<controller>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            if(id <= 0)
+            {
+                return BadRequest("Id must be positive value");
+            }
+            _invoiceService.Delete(id);
+            return Ok();
         }
     }
 }

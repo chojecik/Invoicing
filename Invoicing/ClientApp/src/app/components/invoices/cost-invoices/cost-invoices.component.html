@@ -44,7 +44,7 @@
         </td>
       </tr>
       <tr *ngIf="invoices.length == 0">
-        <td style="text-align: center" colspan="8">Brak danych</td>
+        <td style="text-align: center" colspan="8" [@flash]="flash">{{tempInfo}}</td>
       </tr>
     </tbody>
   </table>  

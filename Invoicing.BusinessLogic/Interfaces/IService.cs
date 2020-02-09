@@ -47,7 +47,7 @@ namespace Invoicing.BusinessLogic.Interfaces
         /// <summary>
         /// Deletes the record from the database
         /// </summary>
-        /// <param name="entity">Entity to delete</param>
-        void Delete(T entity);
+        /// <param name="id">Id of the entity to delete</param>
+        void Delete(int id);
     }
 }

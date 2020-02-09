@@ -1,40 +1,52 @@
-<div>
-  <h2 class="text-center">Edytuj fakturę kosztową</h2>
-  <form [formGroup]="invoiceForm" (ngSubmit)="updateInvoice(invoiceForm.value)">
+<h2 class="text-center">Edytuj fakturę kosztową</h2>
+<div class="col-sm-6 offset-sm-3">
+  <form [formGroup]="invoiceForm" (ngSubmit)="updateInvoice(invoiceForm)">
     <div class="form-group row">
-      <label class="col-sm-2 col-form-label">Numer faktury </label>
-      <div class="col-sm-10">
+      <label class="col-sm-4 col-form-label">Numer faktury </label>
+      <div class="col-sm-8">
         <input type="text" class="form-control" formControlName="invoiceNumber" />
       </div>
-      <label class="col-sm-2 col-form-label">Kontrahent </label>
-      <div class="col-sm-10">
+      <label class="col-sm-4 col-form-label">Kontrahent </label>
+      <div class="col-sm-8">
         <input type="text" class="form-control" formControlName="contractor" />
       </div>
-      <label class="col-sm-2 col-form-label">Data </label>
-      <div class="col-sm-10">
+      <label class="col-sm-4 col-form-label">Data zakupu</label>
+      <div class="col-sm-8">
         <input type="date" class="form-control" formControlName="date" />
       </div>
-      <label class="col-sm-2 col-form-label">Cena brutto </label>
-      <div class="col-sm-10">
-        <input type="number" class="form-control" formControlName="grossAmount" />
+      <label class="col-sm-4 col-form-label">Cena netto</label>
+      <div class="col-sm-8">
+        <input type="number" class="form-control" formControlName="netAmount" (change)="netAmountChanged($event)" />
       </div>
-      <label class="col-sm-2 col-form-label">Cena netto </label>
-      <div class="col-sm-10">
-        <input type="number" class="form-control" formControlName="netAmount" />
+      <label class="col-sm-4 col-form-label">Vat %</label>
+      <div class="col-sm-8">
+        <select class="form-control" formControlName="vatRate" (change)="vatRateChanged($event)">
+          <option>Wybierz stawkę podatku</option>
+          <option *ngFor="let rate of vatRates">{{rate}}</option>
+        </select>
       </div>
-      <label class="col-sm-2 col-form-label">VAT </label>
-      <div class="col-sm-10">
-        <input type="number" class="form-control" formControlName="vatAmount" />
+      <label class="col-sm-4 col-form-label">VAT </label>
+      <div class="col-sm-8">
+        <input type="number" class="form-control" formControlName="vatAmount" value="{{vatAmountCalculated}}" readonly />
       </div>
-      <label class="col-sm-2 col-form-label">Typ faktury </label>
-      <div class="col-sm-10">
-        <input type="checkbox" class="form-control" formControlName="type" />
+      <label class="col-sm-4 col-form-label">Cena brutto </label>
+      <div class="col-sm-8">
+        <input type="number" class="form-control" formControlName="grossAmount" value="{{grossAmountCalculated}}" readonly />
+      </div>
+      <label class="col-sm-4 col-form-label">Typ faktury </label>
+      <div class="col-sm-8">
+        <input type="text" class="form-control" formControlName="type" value="{{invoiceType | invoiceType}}" readonly />
+      </div>
+      <label class="col-sm-4 col-form-label">Plik </label>
+      <div class="col-sm-8">
+        <input type="text" class="form-control" formControlName="filePath" value="{{filePath}}" readonly />
       </div>
     </div>
+    <app-upload (onUploadFinished)="uploadFinished($event)"></app-upload>
     <div class="form-group">
       <button type="submit" class="btn btn-primary col-md-4" [disabled]="invoiceForm.invalid">Zapisz</button>
       <a [routerLink]="['/']">
-        <button type="submit" class="btn btn-primary col-md-4 ml-1">Back</button>
+        <button type="submit" class="btn btn-primary col-md-4 ml-1">Cofnij</button>
       </a>
     </div>
   </form>

@@ -17,6 +17,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { InvoiceTypePipe } from './pipes/invoice-type.pipe';
 import { UploadComponent } from './components/upload/upload.component';
 import { CustomHttpInterceptor } from './middlewares/custom-http-interceptor';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -38,6 +40,7 @@ import { CustomHttpInterceptor } from './middlewares/custom-http-interceptor';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    BrowserAnimationsModule,
     RouterModule.forRoot([
       { path: '', redirectTo: 'welcome', pathMatch: 'full' },
       { path: 'welcome', component: WelcomeComponent },
@@ -51,7 +54,8 @@ import { CustomHttpInterceptor } from './middlewares/custom-http-interceptor';
     ])
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: CustomHttpInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: CustomHttpInterceptor, multi: true },
+    DatePipe
   ],
   bootstrap: [AppComponent]
 })

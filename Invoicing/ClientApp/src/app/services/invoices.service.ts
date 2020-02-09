@@ -28,10 +28,10 @@ export class InvoicesService {
   }
 
   getInvoice(id: number): Observable<Invoice> {
-    const url = `${this.apiUrl}?id=${id}`;
-    return this.http.get<Invoice>(url).pipe(
-      tap(_ => console.log(`fetched invoice id=${id}`)),
-      catchError(this.handleError<Invoice>(`getInvoice id=${id}`))
+    const url = `${this.apiUrl}/${id}`;
+    return this.http.get<Invoice>(url)
+      .pipe(
+        catchError(this.handleError<Invoice>(`getInvoice id=${id}`))
     );
   }
 
@@ -57,14 +57,14 @@ export class InvoicesService {
   }
 
   deleteInvoice(id): Observable<Invoice> {
-    const url = `${this.apiUrl}`;
+    const url = `${this.apiUrl}/${id}`;
     const httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     };
 
-    return this.http.delete<Invoice>(url, httpOptions).pipe(
-      tap(_ => console.log(`deleted invoice id=${id}`)),
-      catchError(this.handleError<Invoice>('deleteInvoice'))
+    return this.http.delete<Invoice>(url, httpOptions)
+      .pipe(
+        catchError(this.handleError<Invoice>('deleteInvoice'))
     );
   }
   private handleError<T>(operation = 'operation', result?: T) {
