@@ -8,7 +8,11 @@
       </div>
       <label class="col-sm-4 col-form-label">Kontrahent </label>
       <div class="col-sm-8">
-        <input type="text" class="form-control" formControlName="contractor" />
+        <select formControlName="contractor" class="form-control">
+          <option *ngFor="let c of contractors" [(ngValue)]="c">
+            {{c | displayContractor}}
+          </option>
+        </select>
       </div>
       <label class="col-sm-4 col-form-label">Data zakupu</label>
       <div class="col-sm-8">

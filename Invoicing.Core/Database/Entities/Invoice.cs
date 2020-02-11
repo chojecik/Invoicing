@@ -14,8 +14,7 @@ namespace Invoicing.Core.Database.Entities
         public string Number { get; set; }
 
         [Required]
-        [MaxLength(50)]
-        public string Contractor { get; set; }
+        public virtual Contractor Contractor { get; set; }
 
         [Required]
         public DateTime Date { get; set; }

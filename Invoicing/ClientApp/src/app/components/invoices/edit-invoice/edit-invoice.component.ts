@@ -4,6 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { InvoicesService } from '../../../services/invoices.service';
 import { Invoice } from '../../../models/invoice';
 import { DatePipe } from '@angular/common';
+import { Contractor } from '../../../models/contractor';
+import { ContractorsService } from '../../../services/contractors.service';
 
 @Component({
   selector: 'app-edit-invoice',
@@ -21,20 +23,22 @@ export class EditInvoiceComponent implements OnInit {
   netValue: number;
   invoice: Invoice = new Invoice();
   invoiceType: number;
+  contractors: Contractor[];
 
   constructor(
     private formBuilder: FormBuilder,
     private activeRouter: ActivatedRoute,
     private router: Router,
     private invoicesSevice: InvoicesService,
-    private datePipe: DatePipe) { }
+    private datePipe: DatePipe,
+    private contractorsService: ContractorsService) { }
 
   ngOnInit() {
+    this.getUserContractors();
     this.getDetail(this.activeRouter.snapshot.params['id']);
-
     this.invoiceForm = this.formBuilder.group({
       invoiceNumber: ['', Validators.required],
-      contractor: ['', Validators.required],
+      contractor: [Contractor, Validators.required],
       date: ['', Validators.required],
       netAmount: ['', Validators.required],
       vatRate: ['', Validators.required],
@@ -89,5 +93,15 @@ export class EditInvoiceComponent implements OnInit {
   calculateReadonlyValues() {
     this.vatAmountCalculated = Math.round(((this.netValue * this.vatValue / 100) + Number.EPSILON) * 100) / 100
     this.grossAmountCalculated = this.netValue + this.vatAmountCalculated;
+  }
+
+  getUserContractors() {
+    this.contractorsService.getUserContractors().subscribe(
+      res => {
+        this.contractors = res;
+      },
+      err => {
+        console.log(err);
+      });
   }
 }

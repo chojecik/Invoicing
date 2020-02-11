@@ -4,7 +4,6 @@ import { Invoice } from '../models/invoice';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { tap, catchError } from 'rxjs/operators';
 import { InvoiceType } from '../enums/invoice-type.enum';
-import { StorageService } from './storage.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +11,7 @@ import { StorageService } from './storage.service';
 export class InvoicesService {
   apiUrl: string = "api/invoices";
 
-  constructor(private http: HttpClient, private storageService: StorageService) {
+  constructor(private http: HttpClient) {
   }
 
   getInvoices(type: InvoiceType): Observable<Invoice[]> {

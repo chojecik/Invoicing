@@ -26,7 +26,7 @@
       <tr *ngFor="let invoice of invoices let i = index" [attr.data.index]="i">
         <td>{{i + 1}}</td>
         <td>{{invoice.invoiceNumber}}</td>
-        <td>{{invoice.contractor}}</td>
+        <td>{{invoice.contractor | displayContractor}}</td>
         <td>{{invoice.date | date:'yyyy-MM-dd'}}</td>
         <td>{{invoice.grossAmount}}</td>
         <td>{{invoice.netAmount}}</td>

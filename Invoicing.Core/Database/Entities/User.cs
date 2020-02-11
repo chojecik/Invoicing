@@ -9,6 +9,7 @@ namespace Invoicing.Core.Database.Entities
         public User()
         {
             this.Invoices = new HashSet<Invoice>();
+            this.Contractors = new HashSet<Contractor>();
         }
 
         [Key]
@@ -37,5 +38,6 @@ namespace Invoicing.Core.Database.Entities
         public string Token { get; set; }
 
         public virtual ICollection<Invoice> Invoices { get; set; }
+        public virtual ICollection<Contractor> Contractors { get; set; }
     }
 }

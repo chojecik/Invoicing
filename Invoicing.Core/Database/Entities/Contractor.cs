@@ -17,12 +17,11 @@ namespace Invoicing.Core.Database.Entities
         [MaxLength(4)]
         public string HouseNumber { get; set; }
 
-        [Required]
-        public int LocalNumber { get; set; }
+        public int? LocalNumber { get; set; }
 
         [Required]
         [MaxLength(6)]
-        [RegularExpression("[0 - 9]{2}\\-[0-9]{3}", ErrorMessage = "Niepoprawny format kodu pocztowego")]
+        //[RegularExpression("[0 - 9]{2}\\-[0-9]{3}", ErrorMessage = "Niepoprawny format kodu pocztowego")]
         public string ZipCode { get; set; }
 
         [Required]
@@ -33,5 +32,8 @@ namespace Invoicing.Core.Database.Entities
         [MaxLength(10)]
         [MinLength(10)]
         public string Nip { get; set; }
+
+        [MaxLength(34)]
+        public string BankAccount { get; set; }
     }
 }

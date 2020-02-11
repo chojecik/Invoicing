@@ -1,9 +1,10 @@
 import { InvoiceType } from "../enums/invoice-type.enum";
+import { Contractor } from "./contractor";
 
 export class Invoice {
   id: number;
   invoiceNumber: string;
-  contractor: string;
+  contractor: Contractor;
   date: Date;
   grossAmount: number;
   vatRate: number;

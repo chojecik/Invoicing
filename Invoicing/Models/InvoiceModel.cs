@@ -1,4 +1,5 @@
-﻿using Invoicing.Core.Enums;
+﻿using Invoicing.Core.Database.Entities;
+using Invoicing.Core.Enums;
 using System;
 using System.ComponentModel.DataAnnotations;
 
@@ -13,8 +14,7 @@ namespace Invoicing.Web.Models
         public string InvoiceNumber { get; set; }
 
         [Required]
-        [MaxLength(50)]
-        public string Contractor { get; set; }
+        public Contractor Contractor { get; set; }
 
         [Required]
         public DateTime Date { get; set; }

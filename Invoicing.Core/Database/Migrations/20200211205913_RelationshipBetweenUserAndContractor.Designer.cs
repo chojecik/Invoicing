@@ -4,14 +4,16 @@ using Invoicing.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Invoicing.Core.Database.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20200211205913_RelationshipBetweenUserAndContractor")]
+    partial class RelationshipBetweenUserAndContractor
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -62,6 +64,7 @@ namespace Invoicing.Core.Database.Migrations
                         .HasMaxLength(4);
 
                     b.Property<int?>("LocalNumber")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -104,8 +107,10 @@ namespace Invoicing.Core.Database.Migrations
                     b.Property<int?>("AttachmentId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ContractorId")
-                        .HasColumnType("int");
+                    b.Property<string>("Contractor")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
@@ -136,8 +141,6 @@ namespace Invoicing.Core.Database.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AttachmentId");
-
-                    b.HasIndex("ContractorId");
 
                     b.HasIndex("UserId");
 
@@ -190,12 +193,6 @@ namespace Invoicing.Core.Database.Migrations
                     b.HasOne("Invoicing.Core.Database.Entities.Attachment", "Attachment")
                         .WithMany()
                         .HasForeignKey("AttachmentId");
-
-                    b.HasOne("Invoicing.Core.Database.Entities.Contractor", "Contractor")
-                        .WithMany()
-                        .HasForeignKey("ContractorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
 
                     b.HasOne("Invoicing.Core.Database.Entities.User", "User")
                         .WithMany("Invoices")

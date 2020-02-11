@@ -25,6 +25,5 @@ export class TaxesComponent implements OnInit{
   changed(e) {
     this.year = this.date.getFullYear();
     this.month = this.date.getMonth();
-    console.log(this.year + "  " + this.month);
   }
 }

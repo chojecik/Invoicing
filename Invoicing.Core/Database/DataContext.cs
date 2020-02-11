@@ -12,5 +12,6 @@ namespace Invoicing.Core
         public DbSet<User> Users { get; set; }
         public DbSet<Invoice> Invoices { get; set; }
         public DbSet<Attachment> Attachments { get; set; }
+        public DbSet<Contractor> Contractors { get; set; }
     }
 }

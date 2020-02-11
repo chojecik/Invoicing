@@ -36,6 +36,8 @@
     <Compile Remove="Database\Migrations\20200201130955_UsersInvoicesrelationship.Designer.cs" />
     <Compile Remove="Database\Migrations\20200201131050_UsersInvoicesRelationship.cs" />
     <Compile Remove="Database\Migrations\20200201131050_UsersInvoicesRelationship.Designer.cs" />
+    <Compile Remove="Database\Migrations\20200211205157_x.cs" />
+    <Compile Remove="Database\Migrations\20200211205157_x.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

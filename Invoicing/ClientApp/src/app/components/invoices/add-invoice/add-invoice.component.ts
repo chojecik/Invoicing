@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { InvoicesService } from '../../../services/invoices.service';
 import { Invoice } from '../../../models/invoice';
 import { InvoiceType } from '../../../enums/invoice-type.enum';
+import { Contractor } from '../../../models/contractor';
+import {ContractorsService } from '../../../services/contractors.service';
 
 @Component({
   selector: 'app-add-invoice',
@@ -21,14 +23,20 @@ export class AddInvoiceComponent implements OnInit {
   vatAmountCalculated: number;
   vatValue: number;
   netValue: number;
+  contractors: Contractor[];
 
-  constructor(private formBuilder: FormBuilder, private router: Router, private invoiceService: InvoicesService) { }
+  constructor(
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private invoiceService: InvoicesService,
+    private contractorsService: ContractorsService) { }
 
   ngOnInit() {
+    this.getUserContractors();
     this.invoiceType = InvoiceType.Cost;
     this.invoiceForm = this.formBuilder.group({
       invoiceNumber: ['', Validators.required],
-      contractor: ['', Validators.required],
+      contractor: [Contractor, Validators.required],
       date: ['', Validators.required],
       netAmount: ['', Validators.required],
       vatRate: ['', Validators.required],
@@ -40,7 +48,6 @@ export class AddInvoiceComponent implements OnInit {
   }
 
   addInvoice(form) {
-    debugger;
     this.invoiceForm.patchValue({ filePath: this.filePath });
     this.invoiceForm.patchValue({ grossAmount: this.grossAmountCalculated });
     this.invoiceForm.patchValue({ vatAmount: this.vatAmountCalculated });
@@ -73,5 +80,15 @@ export class AddInvoiceComponent implements OnInit {
   calculateReadonlyValues() {
     this.vatAmountCalculated = Math.round(((this.netValue * this.vatValue / 100) + Number.EPSILON) * 100) / 100
     this.grossAmountCalculated = this.netValue + this.vatAmountCalculated;
+  }
+
+  getUserContractors() {
+    this.contractorsService.getUserContractors().subscribe(
+      res => {
+        this.contractors = res;
+      },
+      err => {
+        console.log(err);
+      });
   }
 }

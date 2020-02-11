@@ -34,5 +34,12 @@ namespace Invoicing.BusinessLogic.Interfaces
         /// <param name="type">Type of invoice (cost/sale)</param>
         /// <returns>Returns collection of user's invoices</returns>
         IEnumerable<Invoice> GerUsersInvoicesByType(int userId, InvoiceType type);
+
+        /// <summary>
+        /// Gets user's contractors
+        /// </summary>
+        /// <param name="userId">Id of the user</param>
+        /// <returns>Returns collection of user's contractors</returns>
+        IEnumerable<Contractor> GetUserContractors(int userId);
     }
 }

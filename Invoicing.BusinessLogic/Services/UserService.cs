@@ -125,10 +125,24 @@ namespace Invoicing.BusinessLogic.Services
         {
             return _context.Users
                 .Include(user => user.Invoices)
+                .Include(user => user.Contractors)
                 .FirstOrDefault(user => user.UserId == userId)
                 .Invoices
                 .Where(invoice => invoice.Type == type)
                 .ToList();
+        }
+
+        public IEnumerable<Contractor> GetUserContractors(int userId)
+        {
+            if (userId > 0)
+            {
+                return _context.Users
+                    .Include(user => user.Contractors)
+                    .FirstOrDefault(user => user.UserId == userId)
+                    .Contractors
+                    .ToList();
+            }
+            return null;
         }
 
         private static void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
