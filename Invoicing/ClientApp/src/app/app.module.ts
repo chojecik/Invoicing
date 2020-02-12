@@ -21,8 +21,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DatePipe } from '@angular/common';
 import { TaxesComponent } from './components/taxes/taxes.component';
 import { IgxCalendarModule } from 'igniteui-angular';
-import { ContractorsComponent } from './components/contractors/contractors.component';
+import { ContractorsComponent } from './components/contractors/contractors/contractors.component';
 import { DisplayContractorPipe } from './pipes/display-contractor.pipe';
+import { AddContractorComponent } from './components/contractors/add-contractor/add-contractor.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { DisplayContractorPipe } from './pipes/display-contractor.pipe';
     UploadComponent,
     TaxesComponent,
     ContractorsComponent,
-    DisplayContractorPipe
+    DisplayContractorPipe,
+    AddContractorComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

@@ -80,7 +80,6 @@ export class EditInvoiceComponent implements OnInit {
   }
 
   netAmountChanged(event) {
-    debugger;
     this.netValue = Number(event.target.value);
     this.calculateReadonlyValues();
   }

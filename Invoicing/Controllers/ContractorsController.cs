@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Invoicing.BusinessLogic.Interfaces;
+using Invoicing.Core.Database.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -45,8 +46,18 @@ namespace Invoicing.Web.Controllers
 
         // POST api/<controller>
         [HttpPost]
-        public void Post([FromBody]string value)
+        public IActionResult Post([FromBody]Contractor contractor)
         {
+            if(contractor == null)
+            {
+                return BadRequest();
+            }
+
+            int.TryParse(HttpContext.User.Identity.Name, out int userId);
+            var user = _userService.GetById(userId);
+            user.Contractors.Add(contractor);
+            _userService.Update(user);
+            return Ok(contractor);
         }
 
         // PUT api/<controller>/5

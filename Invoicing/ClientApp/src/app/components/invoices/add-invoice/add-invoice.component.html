@@ -1,5 +1,8 @@
 <h2 class="text-center">Dodaj fakturę kosztową</h2>
 <div class="col-sm-6 offset-sm-3">
+  <div *ngIf="isContractorFormVisible">
+    <add-contractor (onContractorAddingFinished)="contractorAddingFinished($event)"></add-contractor>
+  </div>
   <form [formGroup]="invoiceForm" (ngSubmit)="addInvoice(invoiceForm)">
     <div class="form-group row">
       <label class="col-sm-4 col-form-label">Numer faktury </label>
@@ -9,10 +12,11 @@
       <label class="col-sm-4 col-form-label">Kontrahent </label>
       <div class="col-sm-8">
         <select formControlName="contractor" class="form-control">
-          <option *ngFor="let c of contractors" [ngValue]="c">
+          <option *ngFor="let c of contractors" [ngValue]="c" >
             {{c | displayContractor}}
           </option>
         </select>
+        <button type="button" class="btn btn-primary" (click)="showContractorForm($event)">Dodaj nowego kontrahenta</button>
       </div>
       <label class="col-sm-4 col-form-label">Data zakupu</label>
       <div class="col-sm-8">

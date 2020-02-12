@@ -13,7 +13,7 @@ export class DisplayContractorPipe implements PipeTransform {
       displayValue = displayValue + " " + contractor.zipCode;
     }
     else {
-      displayValue = displayValue + "//" + contractor.localNumber + " " + contractor.zipCode;
+      displayValue = displayValue + "/" + contractor.localNumber + " " + contractor.zipCode;
     }
     return displayValue;
   }

@@ -17,6 +17,11 @@ export class ContractorsService {
         catchError(this.handleError('getUserContractors', [])));
   }
 
+  addContractor(contractor: Contractor): Observable<Contractor> {
+    return this.http.post<Contractor>(this.apiUrl, contractor)
+      .pipe(catchError(this.handleError<Contractor>('addContractor')));
+  }
+
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
 

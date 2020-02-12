@@ -24,6 +24,7 @@ export class AddInvoiceComponent implements OnInit {
   vatValue: number;
   netValue: number;
   contractors: Contractor[];
+  isContractorFormVisible: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -67,6 +68,16 @@ export class AddInvoiceComponent implements OnInit {
     this.filePath = event;
   }
 
+  contractorAddingFinished = (event) => {
+    if (event === "close") {
+      this.isContractorFormVisible = false;
+    }
+    else if (this.isNumber(event)) {
+      this.isContractorFormVisible = false;
+      this.getUserContractors();
+    }
+  }
+
   netAmountChanged(event) {
     this.netValue = Number(event.target.value);
     this.calculateReadonlyValues();
@@ -91,4 +102,14 @@ export class AddInvoiceComponent implements OnInit {
         console.log(err);
       });
   }
+
+  showContractorForm(event) {
+    this.isContractorFormVisible = true;
+  }
+
+  isNumber(value: string | number): boolean {
+  return ((value != null) &&
+    (value !== '') &&
+    !isNaN(Number(value.toString())));
+}
 }
