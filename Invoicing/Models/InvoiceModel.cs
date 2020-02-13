@@ -1,6 +1,7 @@
 ﻿using Invoicing.Core.Database.Entities;
 using Invoicing.Core.Enums;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Invoicing.Web.Models
@@ -17,28 +18,36 @@ namespace Invoicing.Web.Models
         public Contractor Contractor { get; set; }
 
         [Required]
-        public DateTime Date { get; set; }
+        public DateTime DateOfIssue { get; set; }
+
 
         [Required]
-        public decimal GrossAmount { get; set; }
+        public DateTime DateOfService { get; set; }
+
+        [Required]
+        public InvoiceType Type { get; set; }
+
+        public bool IsPaid { get; set; }
 
         [Required]
         public int VatRate { get; set; }
 
         [Required]
-        public decimal NetAmount { get; set; }
+        public decimal NetValue { get; set; }
 
         [Required]
         public decimal VatAmount { get; set; }
 
         [Required]
-        public InvoiceType Type { get; set; }
+        public decimal GrossValue { get; set; }
 
-        [Required]
+        public List<InvoiceDetails> Details { get; set; }
+
         [MaxLength(200)]
         public string FilePath { get; set; }
 
         [MaxLength(4)]
         public string FileExtension { get; set; }
+
     }
 }

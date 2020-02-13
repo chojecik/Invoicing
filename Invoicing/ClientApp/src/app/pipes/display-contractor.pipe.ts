@@ -7,13 +7,13 @@ import { Contractor } from '../models/contractor';
 export class DisplayContractorPipe implements PipeTransform {
 
   transform(contractor: Contractor, ...args: any[]): string {
-    var displayValue = contractor.name + "  " + "ul." + contractor.street + " " + contractor.houseNumber;
+    var displayValue = contractor.name + "  " + ",ul." + contractor.street + " " + contractor.houseNumber;
 
     if (contractor.localNumber == null) {
-      displayValue = displayValue + " " + contractor.zipCode;
+      displayValue = displayValue + ", " + contractor.zipCode + " " + contractor.city;
     }
     else {
-      displayValue = displayValue + "/" + contractor.localNumber + " " + contractor.zipCode;
+      displayValue = displayValue + "/" + contractor.localNumber + ", " + contractor.zipCode + " " + contractor.city;
     }
     return displayValue;
   }

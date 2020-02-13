@@ -1,0 +1,9 @@
+.fixed {
+  table-layout: fixed;
+}
+
+.add-btn {
+  background-color: #343a40;
+  color: white;
+  text-align: center;
+}

@@ -39,13 +39,11 @@ export class EditInvoiceComponent implements OnInit {
     this.invoiceForm = this.formBuilder.group({
       invoiceNumber: ['', Validators.required],
       contractor: [Contractor, Validators.required],
-      date: ['', Validators.required],
-      netAmount: ['', Validators.required],
-      vatRate: ['', Validators.required],
-      grossAmount: [this.grossAmountCalculated],
-      vatAmount: [this.vatAmountCalculated],
+      dateOfIssue: ['', Validators.required],
+      dateOfService: ['', Validators.required],
       type: [this.invoiceType],
-      filePath: [this.filePath]
+      filePath: [this.filePath],
+      isPaid: []
     });
   }
 
@@ -55,17 +53,11 @@ export class EditInvoiceComponent implements OnInit {
         this.invoiceForm.setValue({
           invoiceNumber: data.invoiceNumber,
           contractor: data.contractor,
-          date: this.datePipe.transform(data.date, "yyyy-MM-dd"),
-          netAmount: data.netAmount,
-          vatRate: data.vatRate,
-          grossAmount: data.grossAmount,
-          vatAmount: data.vatAmount,
+          dateOfIssue: this.datePipe.transform(data.dateOfIssue, "yyyy-MM-dd"),
           type: data.type,
           filePath: data.filePath
         });
         this.invoiceType = data.type;
-        this.vatValue = data.vatRate;
-        this.netValue = data.netAmount;
       });
   }
 

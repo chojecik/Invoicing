@@ -1,9 +1,14 @@
 <h2>
-  Faktury kosztowe
+  Faktury sprzedaży
 </h2>
 <div>
-  <a class="float-left" [routerLink]="['/cost-invoices/add']">
-    <button type="button" class="btn add-btn">Dodaj fakturę kosztową</button>
+  <a class="float-left" [routerLink]="['/sale-invoices/add']">
+    <button type="button" class="btn add-btn">Dodaj fakturę sprzedaży</button>
+  </a>
+</div>
+<div>
+  <a class="float-right" [routerLink]="['/generate-invoice']">
+    <button type="button" class="btn add-btn">Generuj fakturę sprzedaży</button>
   </a>
 </div>
 <div>
@@ -13,12 +18,10 @@
         <th>Lp.</th>
         <th>Numer</th>
         <th>Kontrahent</th>
-        <th>Data wystawienia</th>
-        <th>Data wydania towaru/wykonania usługi</th>
-        <th>Kwota netto</th>
-        <th>Vat %</th>
-        <th>VAT</th>
+        <th>Data</th>
         <th>Kwota brutto</th>
+        <th>Kwota netto</th>
+        <th>VAT</th>
         <th>Opłacona</th>
         <th></th>
         <th></th>
@@ -30,12 +33,10 @@
         <td>{{i + 1}}</td>
         <td>{{invoice.invoiceNumber}}</td>
         <td>{{invoice.contractor | displayContractor}}</td>
-        <td>{{invoice.dateOfIssue | date:'yyyy-MM-dd'}}</td>
-        <td>{{invoice.dateOfService | date:'yyyy-MM-dd'}}</td>
-        <td>{{invoice.netValue}}</td>
-        <td>{{invoice.vatRate}}</td>
-        <td>{{invoice.vatAmount}}</td>
+        <td>{{invoice.date | date:'yyyy-MM-dd'}}</td>
         <td>{{invoice.grossAmount}}</td>
+        <td>{{invoice.netAmount}}</td>
+        <td>{{invoice.vatAmount}}</td>
         <td>{{invoice.isPaid | booleanText}}</td>
         <td>
           <button class="btn btn-primary" (click)="downloadFile(invoice.id)">Pobierz</button>
@@ -53,6 +54,6 @@
         <td style="text-align: center" colspan="8" [@flash]="flash">{{tempInfo}}</td>
       </tr>
     </tbody>
-  </table>  
+  </table>
 </div>
 

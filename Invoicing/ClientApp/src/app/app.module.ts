@@ -24,6 +24,9 @@ import { IgxCalendarModule } from 'igniteui-angular';
 import { ContractorsComponent } from './components/contractors/contractors/contractors.component';
 import { DisplayContractorPipe } from './pipes/display-contractor.pipe';
 import { AddContractorComponent } from './components/contractors/add-contractor/add-contractor.component';
+import { SaleInvoicesComponent } from './components/invoices/sale-invoices/sale-invoices.component';
+import { BooleanTextPipe } from './pipes/boolean-text.pipe';
+import { InvoiceDetailsComponent } from './components/invoices/invoice-details/invoice-details.component';
 
 @NgModule({
   declarations: [
@@ -42,12 +45,15 @@ import { AddContractorComponent } from './components/contractors/add-contractor/
     TaxesComponent,
     ContractorsComponent,
     DisplayContractorPipe,
-    AddContractorComponent
+    AddContractorComponent,
+    SaleInvoicesComponent,
+    BooleanTextPipe,
+    InvoiceDetailsComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
-    FormsModule,
+    FormsModule,  
     ReactiveFormsModule,
     BrowserAnimationsModule,
     IgxCalendarModule,
@@ -55,7 +61,10 @@ import { AddContractorComponent } from './components/contractors/add-contractor/
       { path: '', redirectTo: 'welcome', pathMatch: 'full' },
       { path: 'welcome', component: WelcomeComponent },
       { path: 'cost-invoices', component: CostInvoicesComponent },
+      { path: 'sale-invoices', component: SaleInvoicesComponent },
       { path: 'cost-invoices/add', component: AddInvoiceComponent },
+      { path: 'sale-invoices/add', component: AddInvoiceComponent },
+      { path: 'generate-invoice', component: AddInvoiceComponent },
       { path: 'cost-invoices/edit/:id', component: EditInvoiceComponent },
       { path: 'home', component: HomeComponent },
       { path: 'login', component: LoginComponent },

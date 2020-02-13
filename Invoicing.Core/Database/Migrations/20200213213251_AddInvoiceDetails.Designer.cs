@@ -4,14 +4,16 @@ using Invoicing.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Invoicing.Core.Database.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20200213213251_AddInvoiceDetails")]
+    partial class AddInvoiceDetails
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -113,14 +115,8 @@ namespace Invoicing.Core.Database.Migrations
                     b.Property<DateTime>("DateOfService")
                         .HasColumnType("datetime2");
 
-                    b.Property<decimal>("GrossValue")
-                        .HasColumnType("decimal(18,2)");
-
                     b.Property<bool>("IsPaid")
                         .HasColumnType("bit");
-
-                    b.Property<decimal>("NetValue")
-                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Number")
                         .IsRequired()
@@ -132,12 +128,6 @@ namespace Invoicing.Core.Database.Migrations
 
                     b.Property<long?>("UserId")
                         .HasColumnType("bigint");
-
-                    b.Property<decimal>("VatAmount")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("VatRate")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 

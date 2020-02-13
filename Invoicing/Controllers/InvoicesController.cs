@@ -57,7 +57,11 @@ namespace Invoicing.Web.Controllers
         public IActionResult Post([FromBody]InvoiceModel model)
         {
             int.TryParse(HttpContext.User.Identity.Name, out int userId);
-            model.FileExtension = _fileService.GetFileExtension(model.FilePath);
+
+            if(!string.IsNullOrEmpty(model.FilePath))
+            {
+                model.FileExtension = _fileService.GetFileExtension(model.FilePath);
+            }
 
             if(!ModelState.IsValid)
             {
@@ -65,11 +69,17 @@ namespace Invoicing.Web.Controllers
             }
 
             var invoice = _mapper.Map<Invoice>(model);
-            invoice.Attachment.DirectoryPath = _fileService.MoveFile(invoice.Attachment.DirectoryPath, invoice.Type, invoice.Date);
+            invoice.Attachment.DirectoryPath = _fileService.MoveFile(invoice.Attachment.DirectoryPath, invoice.Type, invoice.DateOfIssue);
             var user = _userService.GetById(userId);
             user.Invoices.Add(invoice);
             _userService.Update(user);
             return Ok(invoice);
+        }
+
+        [HttpPost("generate-new")]
+        public IActionResult GenerateNewInvoice([FromBody]InvoiceModel model)
+        {
+            return null;
         }
 
         // PUT api/<controller>/5

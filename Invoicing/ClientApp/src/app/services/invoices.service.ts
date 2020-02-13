@@ -44,6 +44,12 @@ export class InvoicesService {
     );
   }
 
+  generateInvoice(invoice: Invoice): Observable<Invoice> {
+    return this.http.post<Invoice>(this.apiUrl + "/generate-new", invoice).pipe(
+      catchError(this.handleError<Invoice>('addInvoice'))
+    );
+  }
+
   updateInvoice(id, invoice): Observable<any> {
     const httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' })

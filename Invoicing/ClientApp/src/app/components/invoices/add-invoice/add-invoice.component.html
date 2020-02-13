@@ -1,4 +1,4 @@
-<h2 class="text-center">Dodaj fakturę kosztową</h2>
+<h2 class="text-center">{{title}}</h2>
 <div class="col-sm-6 offset-sm-3">
   <div *ngIf="isContractorFormVisible">
     <add-contractor (onContractorAddingFinished)="contractorAddingFinished($event)"></add-contractor>
@@ -12,19 +12,23 @@
       <label class="col-sm-4 col-form-label">Kontrahent </label>
       <div class="col-sm-8">
         <select formControlName="contractor" class="form-control">
-          <option *ngFor="let c of contractors" [ngValue]="c" >
+          <option *ngFor="let c of contractors" [ngValue]="c">
             {{c | displayContractor}}
           </option>
         </select>
         <button type="button" class="btn btn-primary" (click)="showContractorForm($event)">Dodaj nowego kontrahenta</button>
       </div>
-      <label class="col-sm-4 col-form-label">Data zakupu</label>
+      <label class="col-sm-4 col-form-label">Data wystawienia</label>
       <div class="col-sm-8">
-        <input type="date" class="form-control" formControlName="date" />
+        <input type="date" class="form-control" formControlName="dateOfIssue" />
       </div>
-      <label class="col-sm-4 col-form-label">Cena netto</label>
+      <label class="col-sm-4 col-form-label">Data wydania towaru lub wykonania usługi</label>
       <div class="col-sm-8">
-        <input type="number" class="form-control" formControlName="netAmount" (change)="netAmountChanged($event)" />
+        <input type="date" class="form-control" formControlName="dateOfService" />
+      </div>
+      <label class="col-sm-4 col-form-label">Kwota netto</label>
+      <div class="col-sm-8">
+        <input type="number" class="form-control" formControlName="netValue" (change)="netAmountChanged($event)" />
       </div>
       <label class="col-sm-4 col-form-label">Vat %</label>
       <div class="col-sm-8">
@@ -37,9 +41,13 @@
       <div class="col-sm-8">
         <input type="number" class="form-control" formControlName="vatAmount" value="{{vatAmountCalculated}}" readonly />
       </div>
-      <label class="col-sm-4 col-form-label">Cena brutto </label>
+      <label class="col-sm-4 col-form-label">Kwota brutto </label>
       <div class="col-sm-8">
         <input type="number" class="form-control" formControlName="grossAmount" value="{{grossAmountCalculated}}" readonly />
+      </div>
+      <label class="col-sm-4 col-form-label">Opłacona</label>
+      <div class="col-sm-8">
+        <input type="checkbox" class="form-control" formControlName="isPaid" />
       </div>
       <label class="col-sm-4 col-form-label">Typ faktury </label>
       <div class="col-sm-8">
@@ -49,6 +57,42 @@
       <div class="col-sm-8">
         <input type="text" class="form-control" formControlName="filePath" value="{{filePath}}" readonly />
       </div>
+    </div>
+    <div *ngIf="isGenerating">
+      <button type="button" class="btn btn-primary" (click)="addInvoiceDetail($event)">Dodaj nową pozycję na fakturze</button>
+      <div *ngIf="isInvoiceDetailsFormVisible">
+        <invoice-details (onAddingFinished)="detailAdded($event)"></invoice-details>
+      </div>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Lp.</th>
+            <th>Nazwa produktu/usługi</th>
+            <th>PKWiU</th>
+            <th>Cena netto</th>
+            <th>Ilość</th>
+            <th>J.m.</th>
+            <th>Wartość netto</th>
+            <th>Vat %</th>
+            <th>Kwota Vat</th>
+            <th>Wartość brutto</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let detail of invoice.details let i = index" [attr.data.index]="i">
+            <td>{{i + 1}}</td>
+            <td>{{detail.productName}}</td>
+            <td>{{detail.pkwiu}}</td>
+            <td>{{detail.netPrice}}</td>
+            <td>{{detail.quantity}}</td>
+            <td>{{detail.unit}}</td>
+            <td>{{detail.netValue}}</td>
+            <td>{{detail.vatRate}}</td>
+            <td>{{detail.vatAmount}}</td>
+            <td>{{detail.grossValue}}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
     <app-upload (onUploadFinished)="uploadFinished($event)"></app-upload>
     <div class="form-group">

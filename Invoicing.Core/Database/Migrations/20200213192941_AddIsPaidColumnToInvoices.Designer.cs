@@ -4,14 +4,16 @@ using Invoicing.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Invoicing.Core.Database.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20200213192941_AddIsPaidColumnToInvoices")]
+    partial class AddIsPaidColumnToInvoices
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -107,19 +109,16 @@ namespace Invoicing.Core.Database.Migrations
                     b.Property<int>("ContractorId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("DateOfIssue")
+                    b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateOfService")
-                        .HasColumnType("datetime2");
-
-                    b.Property<decimal>("GrossValue")
+                    b.Property<decimal>("GrossAmount")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<bool>("IsPaid")
                         .HasColumnType("bit");
 
-                    b.Property<decimal>("NetValue")
+                    b.Property<decimal>("NetAmount")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Number")
@@ -148,53 +147,6 @@ namespace Invoicing.Core.Database.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Invoices");
-                });
-
-            modelBuilder.Entity("Invoicing.Core.Database.Entities.InvoiceDetails", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<decimal>("GrossValue")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int?>("InvoiceId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("NetPrice")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("NetValue")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("PKWiU")
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
-
-                    b.Property<string>("ProductName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Unit")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("VatAmount")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("VatRate")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("InvoiceId");
-
-                    b.ToTable("InvoiceDetails");
                 });
 
             modelBuilder.Entity("Invoicing.Core.Database.Entities.User", b =>
@@ -253,13 +205,6 @@ namespace Invoicing.Core.Database.Migrations
                     b.HasOne("Invoicing.Core.Database.Entities.User", "User")
                         .WithMany("Invoices")
                         .HasForeignKey("UserId");
-                });
-
-            modelBuilder.Entity("Invoicing.Core.Database.Entities.InvoiceDetails", b =>
-                {
-                    b.HasOne("Invoicing.Core.Database.Entities.Invoice", null)
-                        .WithMany("Details")
-                        .HasForeignKey("InvoiceId");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,0 +1,50 @@
+<fieldset class="border">
+  <legend class="border">Dodaj pozycję na fakturze</legend>
+  <form [formGroup]="invoiceDetailsForm" (ngSubmit)="addInvoiceDetail(invoiceDetailsForm)">
+    <div class="form-group row">
+      <label class="col-sm-4 col-form-label">Nazwa produktu/usługi</label>
+      <div class="col-sm-8">
+        <input type="text" class="form-control" formControlName="productName" />
+      </div>
+      <label class="col-sm-4 col-form-label">PKWiU</label>
+      <div class="col-sm-8">
+        <input type="text" class="form-control" formControlName="pkwiu" />
+      </div>
+      <label class="col-sm-4 col-form-label">Cena netto</label>
+      <div class="col-sm-8">
+        <input type="number" class="form-control" formControlName="netPrice" />
+      </div>
+      <label class="col-sm-4 col-form-label">Ilość</label>
+      <div class="col-sm-8">
+        <input type="number" class="form-control" formControlName="quantity" />
+      </div>
+      <label class="col-sm-4 col-form-label">J.m.</label>
+      <div class="col-sm-8">
+        <input type="text" class="form-control" formControlName="unit" />
+      </div>
+      <label class="col-sm-4 col-form-label">Wartość netto</label>
+      <div class="col-sm-8">
+        <input type="number" class="form-control" formControlName="netValue" (change)="netAmountChanged($event)"/>
+      </div>
+      <label class="col-sm-4 col-form-label">Vat %</label>
+      <div class="col-sm-8">
+        <select class="form-control" formControlName="vatRate" (change)="vatRateChanged($event)">
+          <option>Wybierz stawkę podatku</option>
+          <option *ngFor="let rate of vatRates">{{rate}}</option>
+        </select>
+      </div>
+      <label class="col-sm-4 col-form-label">Kwota Vat</label>
+      <div class="col-sm-8">
+        <input type="number" class="form-control" formControlName="vatAmount" value="{{vatAmountCalculated}}" readonly />
+      </div>
+      <label class="col-sm-4 col-form-label">Wartość brutto</label>
+      <div class="col-sm-8">
+        <input type="number" class="form-control" formControlName="grossValue" value="{{grossValueCalculated}}" readonly/>
+      </div>
+    </div>
+    <div class="form-group">
+      <button type="submit" class="btn btn-primary col-md-4" [disabled]="invoiceDetailsForm.invalid">Dodaj</button>
+      <button type="button" class="btn btn-primary col-md-4 ml-1" (click)="closeForm($event)">Anuluj</button>
+    </div>
+  </form>
+</fieldset>
