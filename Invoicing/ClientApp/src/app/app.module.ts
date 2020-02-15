@@ -27,6 +27,7 @@ import { AddContractorComponent } from './components/contractors/add-contractor/
 import { SaleInvoicesComponent } from './components/invoices/sale-invoices/sale-invoices.component';
 import { BooleanTextPipe } from './pipes/boolean-text.pipe';
 import { InvoiceDetailsComponent } from './components/invoices/invoice-details/invoice-details.component';
+import { GenerateInvoiceComponent } from './components/invoices/generate-invoice/generate-invoice.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import { InvoiceDetailsComponent } from './components/invoices/invoice-details/i
     AddContractorComponent,
     SaleInvoicesComponent,
     BooleanTextPipe,
-    InvoiceDetailsComponent
+    InvoiceDetailsComponent,
+    GenerateInvoiceComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -64,7 +66,7 @@ import { InvoiceDetailsComponent } from './components/invoices/invoice-details/i
       { path: 'sale-invoices', component: SaleInvoicesComponent },
       { path: 'cost-invoices/add', component: AddInvoiceComponent },
       { path: 'sale-invoices/add', component: AddInvoiceComponent },
-      { path: 'generate-invoice', component: AddInvoiceComponent },
+      { path: 'generate-invoice', component: GenerateInvoiceComponent },
       { path: 'cost-invoices/edit/:id', component: EditInvoiceComponent },
       { path: 'home', component: HomeComponent },
       { path: 'login', component: LoginComponent },
@@ -75,7 +77,8 @@ import { InvoiceDetailsComponent } from './components/invoices/invoice-details/i
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: CustomHttpInterceptor, multi: true },
-    DatePipe
+    DatePipe,
+    DisplayContractorPipe
   ],
   bootstrap: [AppComponent]
 })

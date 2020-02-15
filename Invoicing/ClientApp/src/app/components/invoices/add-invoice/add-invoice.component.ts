@@ -6,7 +6,6 @@ import { Invoice } from '../../../models/invoice';
 import { InvoiceType } from '../../../enums/invoice-type.enum';
 import { Contractor } from '../../../models/contractor';
 import {ContractorsService } from '../../../services/contractors.service';
-import { InvoiceDetails } from '../../../models/invoice-details';
 
 @Component({
   selector: 'app-add-invoice',
@@ -20,16 +19,13 @@ export class AddInvoiceComponent implements OnInit {
   invoiceType: number;
   filePath: string;
   vatRates: number[] = [23, 8, 5, 0];
-  grossAmountCalculated: number;
+  grossValueCalculated: number;
   vatAmountCalculated: number;
   vatValue: number;
   netValue: number;
   contractors: Contractor[];
   isContractorFormVisible: boolean = false;
   title: string;
-  isGenerating: boolean = false;
-  isInvoiceDetailsFormVisible: boolean = false;
-  details: InvoiceDetails[] = new Array();
 
   constructor(
     private formBuilder: FormBuilder,
@@ -47,41 +43,34 @@ export class AddInvoiceComponent implements OnInit {
       dateOfService: ['', Validators.required],
       netValue: ['', Validators.required],
       vatRate: ['', Validators.required],
-      grossAmount: [this.grossAmountCalculated],
+      grossValue: [this.grossValueCalculated],
       vatAmount: [this.vatAmountCalculated],
       type: [this.invoiceType],
       filePath: [this.filePath],
-      isPaid: [false],
-      details: [{}]
+      isPaid: [false]
     });
   }
 
   addInvoice(form) {
     this.invoiceForm.patchValue({ filePath: this.filePath });
-    this.invoiceForm.patchValue({ grossAmount: this.grossAmountCalculated });
+    this.invoiceForm.patchValue({ grossValue: this.grossValueCalculated });
     this.invoiceForm.patchValue({ vatAmount: this.vatAmountCalculated });
     this.invoiceForm.patchValue({ vatRate: this.vatValue });
     this.invoiceForm.patchValue({ filePath: this.filePath });
-    this.invoiceForm.patchValue({ details: this.details })
-    if (this.isGenerating) {
-      this.invoiceService.generateInvoice(this.invoiceForm.value)
-        .subscribe(
-          res => {
-
-          },
-          err => {
-          });
-    }
-    else {
+   
       this.invoiceService.addInvoice(this.invoiceForm.value)
         .subscribe(
           res => {
-            this.router.navigate(['/cost-invoices']);
+            if (InvoiceType.Cost) {
+              this.router.navigate(['/cost-invoices']);
+            }
+            else if (InvoiceType.Sale) {
+              this.router.navigate(['/sale-invoices']);
+            }
           },
           err => {
             console.log(err);
           });
-    }
   }
 
   uploadFinished = (event) => {
@@ -110,7 +99,7 @@ export class AddInvoiceComponent implements OnInit {
 
   calculateReadonlyValues() {
     this.vatAmountCalculated = Math.round(((this.netValue * this.vatValue / 100) + Number.EPSILON) * 100) / 100
-    this.grossAmountCalculated = this.netValue + this.vatAmountCalculated;
+    this.grossValueCalculated = this.netValue + this.vatAmountCalculated;
   }
 
   getUserContractors() {
@@ -127,10 +116,6 @@ export class AddInvoiceComponent implements OnInit {
     this.isContractorFormVisible = true;
   }
 
-  addInvoiceDetail(event) {
-    this.isInvoiceDetailsFormVisible = true;
-  }
-
   isNumber(value: string | number): boolean {
   return ((value != null) &&
     (value !== '') &&
@@ -145,21 +130,8 @@ export class AddInvoiceComponent implements OnInit {
       case "/sale-invoices/add":
         this.title = "Dodaj fakturę sprzedaży";
         return InvoiceType.Sale;
-      case "/generate-invoice":
-        this.title = "Generuj nową fakturę sprzedaży";
-        this.isGenerating = true;
-        return InvoiceType.Sale;
     }
   }
 
-  detailAdded = (event: InvoiceDetails) => {
-    if (event == null) {
-      this.isInvoiceDetailsFormVisible = false;
-    }
-    else {
-      this.details.push(event);
-      this.invoice.details = this.details;
-      this.isInvoiceDetailsFormVisible = false;
-    }
-  }
+  
 }

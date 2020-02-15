@@ -17,7 +17,7 @@ export class EditInvoiceComponent implements OnInit {
   id: number = null;
   filePath: string;
   vatRates: number[] = [23, 8, 5, 0];
-  grossAmountCalculated: number;
+  grossValueCalculated: number;
   vatAmountCalculated: number;
   vatValue: number;
   netValue: number;
@@ -35,29 +35,40 @@ export class EditInvoiceComponent implements OnInit {
 
   ngOnInit() {
     this.getUserContractors();
-    this.getDetail(this.activeRouter.snapshot.params['id']);
+    this.getData(this.activeRouter.snapshot.params['id']);
     this.invoiceForm = this.formBuilder.group({
       invoiceNumber: ['', Validators.required],
-      contractor: [Contractor, Validators.required],
+      contractor: ['', Validators.required],
       dateOfIssue: ['', Validators.required],
       dateOfService: ['', Validators.required],
+      netValue: ['', Validators.required],
+      vatRate: ['', Validators.required],
+      grossValue: [this.grossValueCalculated],
+      vatAmount: [this.vatAmountCalculated],
       type: [this.invoiceType],
       filePath: [this.filePath],
       isPaid: []
     });
   }
 
-  getDetail(id) {
+  getData(id) {
     this.invoicesSevice.getInvoice(id)
       .subscribe(data => {
         this.invoiceForm.setValue({
           invoiceNumber: data.invoiceNumber,
           contractor: data.contractor,
           dateOfIssue: this.datePipe.transform(data.dateOfIssue, "yyyy-MM-dd"),
+          dateOfService: this.datePipe.transform(data.dateOfService, "yyyy-MM-dd"),
           type: data.type,
-          filePath: data.filePath
+          filePath: data.filePath,
+          netValue: data.netValue,
+          vatRate: data.vatRate,
+          grossValue: data.grossValue,
+          vatAmount: data.vatAmount,
+          isPaid: data.isPaid
         });
         this.invoiceType = data.type;
+        this.vatValue = data.vatRate;
       });
   }
 
@@ -83,7 +94,7 @@ export class EditInvoiceComponent implements OnInit {
 
   calculateReadonlyValues() {
     this.vatAmountCalculated = Math.round(((this.netValue * this.vatValue / 100) + Number.EPSILON) * 100) / 100
-    this.grossAmountCalculated = this.netValue + this.vatAmountCalculated;
+    this.grossValueCalculated = this.netValue + this.vatAmountCalculated;
   }
 
   getUserContractors() {
