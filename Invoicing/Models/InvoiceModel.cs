@@ -41,7 +41,7 @@ namespace Invoicing.Web.Models
         [Required]
         public decimal GrossValue { get; set; }
 
-        public List<InvoiceDetails> Details { get; set; }
+        public InvoiceDetails[] Details { get; set; }
 
         [MaxLength(200)]
         public string FilePath { get; set; }

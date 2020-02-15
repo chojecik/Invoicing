@@ -43,7 +43,6 @@ export class InvoiceDetailsComponent implements OnInit {
 
     this.detailsService.addInvoiceDetails(this.invoiceDetailsForm.value).subscribe(
       event => {
-        debugger;
         this.onAddingFinished.emit(event);
       },
       err => {

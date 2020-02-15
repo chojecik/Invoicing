@@ -29,7 +29,7 @@ export class AddInvoiceComponent implements OnInit {
   title: string;
   isGenerating: boolean = false;
   isInvoiceDetailsFormVisible: boolean = false;
-  details: InvoiceDetails[];
+  details: InvoiceDetails[] = new Array();
 
   constructor(
     private formBuilder: FormBuilder,
@@ -51,20 +51,26 @@ export class AddInvoiceComponent implements OnInit {
       vatAmount: [this.vatAmountCalculated],
       type: [this.invoiceType],
       filePath: [this.filePath],
-      isPaid: []
+      isPaid: [false],
+      details: [{}]
     });
   }
 
   addInvoice(form) {
-    this.invoice.details = this.details;
     this.invoiceForm.patchValue({ filePath: this.filePath });
     this.invoiceForm.patchValue({ grossAmount: this.grossAmountCalculated });
     this.invoiceForm.patchValue({ vatAmount: this.vatAmountCalculated });
     this.invoiceForm.patchValue({ vatRate: this.vatValue });
     this.invoiceForm.patchValue({ filePath: this.filePath });
-
+    this.invoiceForm.patchValue({ details: this.details })
     if (this.isGenerating) {
+      this.invoiceService.generateInvoice(this.invoiceForm.value)
+        .subscribe(
+          res => {
 
+          },
+          err => {
+          });
     }
     else {
       this.invoiceService.addInvoice(this.invoiceForm.value)
@@ -151,8 +157,9 @@ export class AddInvoiceComponent implements OnInit {
       this.isInvoiceDetailsFormVisible = false;
     }
     else {
-      debugger;
       this.details.push(event);
+      this.invoice.details = this.details;
+      this.isInvoiceDetailsFormVisible = false;
     }
   }
 }
