@@ -12,10 +12,14 @@ import { InvoiceDetails } from '../../../models/invoice-details';
 export class InvoiceDetailsComponent implements OnInit {
   invoiceDetailsForm: FormGroup;
   vatRates: number[] = [23, 8, 5, 0];
-  grossValueCalculated: number;
-  vatAmountCalculated: number;
-  vatValue: number;
-  netValue: number;
+  grossValueCalculated: number = 0;
+  vatAmountCalculated: number = 0;
+  netValueCalculated: number = 0;
+  vatValue: number = 0;
+  netValue: number = 0;
+  netPrice: number = 0;
+  quantity: number = 0;
+  unit: string = "szt.";
 
   @Output() public onAddingFinished = new EventEmitter<InvoiceDetails>();
 
@@ -27,8 +31,8 @@ export class InvoiceDetailsComponent implements OnInit {
       pkwiu: [''],
       netPrice: ['', Validators.required],
       quantity: ['', Validators.required],
-      unit: ['', Validators.required],
-      netValue: ['', Validators.required],
+      unit: [this.unit],
+      netValue: [this.netValueCalculated],
       vatRate: ['', Validators.required],
       vatAmount: [this.vatAmountCalculated],
       grossValue: [this.grossValueCalculated]
@@ -55,18 +59,24 @@ export class InvoiceDetailsComponent implements OnInit {
     this.onAddingFinished.emit(null);
   }
 
-  netAmountChanged(event) {
-    this.netValue = Number(event.target.value);
-    this.calculateReadonlyValues();
-  }
-
   vatRateChanged(event) {
     this.vatValue = Number(event.target.value);
     this.calculateReadonlyValues();
   }
 
   calculateReadonlyValues() {
-    this.vatAmountCalculated = Math.round(((this.netValue * this.vatValue / 100) + Number.EPSILON) * 100) / 100
-    this.grossValueCalculated = this.netValue + this.vatAmountCalculated;
+    this.netValueCalculated = this.netPrice * this.quantity;
+    this.vatAmountCalculated = Math.round(((this.netValueCalculated * this.vatValue / 100) + Number.EPSILON) * 100) / 100
+    this.grossValueCalculated = this.netValueCalculated + this.vatAmountCalculated;
+  }
+
+  netPriceChanged(event) {
+    this.netPrice = event.target.valueAsNumber;
+    this.calculateReadonlyValues();
+  }
+
+  quantityChanged(event) {
+    this.quantity = event.target.valueAsNumber;
+    this.calculateReadonlyValues();
   }
 }

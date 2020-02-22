@@ -12,19 +12,19 @@
       </div>
       <label class="col-sm-4 col-form-label">Cena netto</label>
       <div class="col-sm-8">
-        <input type="number" class="form-control" formControlName="netPrice" />
+        <input type="number" class="form-control" formControlName="netPrice" (change)="netPriceChanged($event)"/>
       </div>
       <label class="col-sm-4 col-form-label">Ilość</label>
       <div class="col-sm-8">
-        <input type="number" class="form-control" formControlName="quantity" />
+        <input type="number" class="form-control" formControlName="quantity" (change)="quantityChanged($event)"/>
       </div>
       <label class="col-sm-4 col-form-label">J.m.</label>
       <div class="col-sm-8">
-        <input type="text" class="form-control" formControlName="unit" />
+        <input type="text" class="form-control" formControlName="unit"  value="{{unit}}" readonly/>
       </div>
       <label class="col-sm-4 col-form-label">Wartość netto</label>
       <div class="col-sm-8">
-        <input type="number" class="form-control" formControlName="netValue" (change)="netAmountChanged($event)"/>
+        <input type="number" class="form-control" formControlName="netValue" value="{{netValueCalculated}}" readonly/>
       </div>
       <label class="col-sm-4 col-form-label">Vat %</label>
       <div class="col-sm-8">
