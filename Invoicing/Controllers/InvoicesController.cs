@@ -1,5 +1,8 @@
 ﻿using System.Collections.Generic;
 using AutoMapper;
+using DinkToPdf.Contracts;
+using Invoicing.BusinessLogic.Factories;
+using Invoicing.BusinessLogic.Factories.Templates;
 using Invoicing.BusinessLogic.Interfaces;
 using Invoicing.Core.Database.Entities;
 using Invoicing.Core.Enums;
@@ -20,13 +23,17 @@ namespace Invoicing.Web.Controllers
         private readonly IInvoiceService _invoiceService;
         private readonly IFileService _fileService;
         private readonly IUserService _userService;
+        private readonly IConverter _converter;
+        private readonly PdfFactory _pdfFactory;
 
-        public InvoicesController(IMapper mapper, IInvoiceService invoiceService, IFileService fileService, IUserService userService)
+        public InvoicesController(IMapper mapper, IInvoiceService invoiceService, IFileService fileService, IUserService userService, IConverter converter)
         {
             _mapper = mapper;
             _invoiceService = invoiceService;
             _fileService = fileService;
             _userService = userService;
+            _converter = converter;
+            _pdfFactory = new PdfFactory(_converter);
         }
 
         // GET: api/<controller>
@@ -83,6 +90,8 @@ namespace Invoicing.Web.Controllers
         [HttpPost("generate-new")]
         public IActionResult GenerateNewInvoice([FromBody]InvoiceModel model)
         {
+            var invoice = _mapper.Map<Invoice>(model);
+            _pdfFactory.GeneratePdf(invoice, TemplateGenerator.GetSaleInvoiceTemplate(invoice));
             return null;
         }
 

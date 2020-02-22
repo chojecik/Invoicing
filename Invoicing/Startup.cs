@@ -15,6 +15,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Threading.Tasks;
 using Microsoft.IdentityModel.Tokens;
 using Invoicing.BusinessLogic.Helpers;
+using DinkToPdf.Contracts;
+using DinkToPdf;
 
 namespace Invoicing
 {
@@ -84,6 +86,8 @@ namespace Invoicing
                         ValidateAudience = false
                     };
                 });
+
+            services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
 
             // configure DI for application services
             services.AddScoped<IUserService, UserService>();

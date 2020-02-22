@@ -43,6 +43,7 @@ export class InvoiceDetailsComponent implements OnInit {
     this.invoiceDetailsForm.patchValue({ vatRate: this.vatValue });
     this.invoiceDetailsForm.patchValue({ vatAmount: this.vatAmountCalculated });
     this.invoiceDetailsForm.patchValue({ grossValue: this.grossValueCalculated });
+    this.invoiceDetailsForm.patchValue({ netValue: this.netValueCalculated });
 
 
     this.detailsService.addInvoiceDetails(this.invoiceDetailsForm.value).subscribe(
