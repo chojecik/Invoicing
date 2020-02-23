@@ -5,7 +5,7 @@ namespace Invoicing.BusinessLogic.Factories.Templates
 {
     public static class TemplateGenerator
     {
-        public static string GetSaleInvoiceTemplate(Invoice invoice)
+        public static string GetSaleInvoiceTemplate(Invoice invoice, User user)
         {
             var sb = new StringBuilder();
 			var index = 1;
@@ -20,6 +20,24 @@ namespace Invoicing.BusinessLogic.Factories.Templates
 								Faktura nr: {0}
 								</h1>
 							</div>
+							<div class='contractors-data'>
+								<div class='seller-info'>
+									<h3>Wystawca:</h3>
+									<p>{1}</p>
+									<p>ul.{2} {3} {4}</p>
+									<p>{5} {6}</p>
+									<p>NIP: {7}</p>
+								</div>
+								<div class='buyer-info'>
+									<h3>Nabywca:</h3>
+									<p>{8}</p>
+									<p>ul.{9} {10} {11}</p>
+									<p>{12} {13}</p>
+									<p>NIP: {14}</p>
+								</div>
+							</div>
+							<br/>
+							<br/>
 							<table align='center'>
 								<tr>
 									<th>Lp.</th>
@@ -32,7 +50,7 @@ namespace Invoicing.BusinessLogic.Factories.Templates
 									<th>VAT%</th>
 									<th>Kwota VAT</th>
 									<th>Wartość brutto</th>
-								</tr>", invoice.Number);
+								</tr>", invoice.Number, user.CompanyName, user.Street, user.HouseNumber, user.LocalNumber, user.ZipCode, user.City, user.Nip, invoice.Contractor.Name, invoice.Contractor.Street, invoice.Contractor.HouseNumber, invoice.Contractor.LocalNumber, invoice.Contractor.ZipCode, invoice.Contractor.City, invoice.Contractor.Nip);
 			foreach(var item in invoice.Details)
 			{
 				sb.AppendFormat(@"<tr>

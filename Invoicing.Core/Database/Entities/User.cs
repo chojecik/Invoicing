@@ -37,6 +37,30 @@ namespace Invoicing.Core.Database.Entities
         [NotMapped]
         public string Token { get; set; }
 
+        [MaxLength(200)]
+        public string CompanyName { get; set; }
+
+        [MaxLength(100)]
+        public string Street { get; set; }
+
+        [MaxLength(4)]
+        public string HouseNumber { get; set; }
+
+        public int? LocalNumber { get; set; }
+
+        [MaxLength(6)]
+        public string ZipCode { get; set; }
+
+        [MaxLength(50)]
+        public string City { get; set; }
+
+        [MaxLength(10)]
+        [MinLength(10)]
+        public string Nip { get; set; }
+
+        [MaxLength(34)]
+        public string BankAccount { get; set; }
+
         public virtual ICollection<Invoice> Invoices { get; set; }
         public virtual ICollection<Contractor> Contractors { get; set; }
     }

@@ -23,16 +23,14 @@ namespace Invoicing.BusinessLogic.Factories
                 PaperSize = PaperKind.A4,
                 Margins = new MarginSettings { Top = 10 },
                 DocumentTitle = invoice.Number,
-                Out = @"D:\invoice.pdf"
+                Out = "D:/invoice.pdf"
             };
 
             var objectSettings = new ObjectSettings
             {
                 PagesCount = true,
                 HtmlContent = template,
-                WebSettings = { DefaultEncoding = "utf-8", UserStyleSheet = Path.Combine(Directory.GetCurrentDirectory(), "assets", "styles.css") },
-                HeaderSettings = { FontName = "Arial", FontSize = 10, Right = "Page [page] of [toPage]", Line = true},
-                FooterSettings = { FontName = "Arial", FontSize = 10, Line = true, Center = "Report Footer"}
+                WebSettings = { DefaultEncoding = "utf-8", UserStyleSheet = Path.Combine(Directory.GetCurrentDirectory(), "assets", "styles.css") }
             };
 
             var pdf = new HtmlToPdfDocument()

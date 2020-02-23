@@ -90,8 +90,13 @@ namespace Invoicing.Web.Controllers
         [HttpPost("generate-new")]
         public IActionResult GenerateNewInvoice([FromBody]InvoiceModel model)
         {
+            int.TryParse(HttpContext.User.Identity.Name, out int userId);
+            var user = _userService.GetById(userId);
+
             var invoice = _mapper.Map<Invoice>(model);
-            _pdfFactory.GeneratePdf(invoice, TemplateGenerator.GetSaleInvoiceTemplate(invoice));
+            //var file = _pdfFactory.GeneratePdf(invoice, TemplateGenerator.GetSaleInvoiceTemplate(invoice, user));
+            //return File(file, "application/pdf", "faktura.pdf");
+            _pdfFactory.GeneratePdf(invoice, TemplateGenerator.GetSaleInvoiceTemplate(invoice, user));
             return null;
         }
 

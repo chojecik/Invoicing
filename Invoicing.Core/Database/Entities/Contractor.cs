@@ -11,7 +11,7 @@ namespace Invoicing.Core.Database.Entities
         public string Name { get; set; }
 
         [Required]
-        [MaxLength(50)]
+        [MaxLength(100)]
         public string Street { get; set; }
 
         [MaxLength(4)]
