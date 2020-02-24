@@ -14,7 +14,7 @@ namespace Invoicing.BusinessLogic.Factories
             _converter = converter;
         }
 
-        public void GeneratePdf(Invoice invoice, string template)
+        public byte[] GeneratePdf(Invoice invoice, string template)
         {
             var globalSettings = new GlobalSettings
             {
@@ -22,8 +22,7 @@ namespace Invoicing.BusinessLogic.Factories
                 Orientation = Orientation.Portrait,
                 PaperSize = PaperKind.A4,
                 Margins = new MarginSettings { Top = 10 },
-                DocumentTitle = invoice.Number,
-                Out = "D:/invoice.pdf"
+                DocumentTitle = invoice.Number
             };
 
             var objectSettings = new ObjectSettings
@@ -39,7 +38,9 @@ namespace Invoicing.BusinessLogic.Factories
                 Objects = { objectSettings }
             };
 
-            _converter.Convert(pdf);
+            var file = _converter.Convert(pdf);
+
+            return file;
         }
     }
 }

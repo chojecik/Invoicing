@@ -45,10 +45,10 @@ export class InvoicesService {
   }
 
   generateInvoice(invoice: Invoice): Observable<Invoice> {
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    const headers = new HttpHeaders().set('Content-Type', 'application/json').set('Accept', "application/pdf");
 
-    return this.http.post<Invoice>(this.apiUrl + "/generate-new", invoice, { headers, responseType: 'blob' as 'json'}).pipe(
-      catchError(this.handleError<Invoice>('addInvoice'))
+    return this.http.post<Invoice>(this.apiUrl + "/generate-new", invoice, { headers: headers, responseType: 'blob' as 'json'}).pipe(
+      catchError(this.handleError<Invoice>('generateInvoice'))
     );
   }
 

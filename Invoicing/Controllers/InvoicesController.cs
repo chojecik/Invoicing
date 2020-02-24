@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using AutoMapper;
 using DinkToPdf.Contracts;
 using Invoicing.BusinessLogic.Factories;
@@ -94,10 +95,9 @@ namespace Invoicing.Web.Controllers
             var user = _userService.GetById(userId);
 
             var invoice = _mapper.Map<Invoice>(model);
-            //var file = _pdfFactory.GeneratePdf(invoice, TemplateGenerator.GetSaleInvoiceTemplate(invoice, user));
-            //return File(file, "application/pdf", "faktura.pdf");
-            _pdfFactory.GeneratePdf(invoice, TemplateGenerator.GetSaleInvoiceTemplate(invoice, user));
-            return null;
+            var file = _pdfFactory.GeneratePdf(invoice, TemplateGenerator.GetSaleInvoiceTemplate(invoice, user));
+
+            return File(file, "application/pdf", "invoice.pdf");
         }
 
         // PUT api/<controller>/5
