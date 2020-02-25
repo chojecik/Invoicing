@@ -1,4 +1,6 @@
-﻿using Invoicing.Core.Database.Entities;
+﻿using Invoicing.BusinessLogic.Helpers;
+using Invoicing.Core.Database.Entities;
+using System.Globalization;
 using System.Text;
 
 namespace Invoicing.BusinessLogic.Factories.Templates
@@ -9,6 +11,9 @@ namespace Invoicing.BusinessLogic.Factories.Templates
         {
             var sb = new StringBuilder();
 			var index = 1;
+			var numberFormatInfo = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
+			numberFormatInfo.NumberGroupSeparator = " ";
+			numberFormatInfo.NumberDecimalSeparator = ",";
 
 			sb.AppendFormat(@"
                        <html>
@@ -20,7 +25,17 @@ namespace Invoicing.BusinessLogic.Factories.Templates
 								Faktura nr: {0}
 								</h1>
 							</div>
-							<div class='contractors-data'>
+							<div>
+								<div class='dates-info'>
+									<p>data wystawienia:	{15}</p>
+									<p>data wydania towaru lub wykonania usługi:	{16}</p>
+								</div>
+							</div>
+							<br>
+							<br>
+							<br>
+							<br>
+							<div class='row'>
 								<div class='seller-info'>
 									<h3>Wystawca:</h3>
 									<p>{1}</p>
@@ -36,8 +51,8 @@ namespace Invoicing.BusinessLogic.Factories.Templates
 									<p>NIP: {14}</p>
 								</div>
 							</div>
-							<br/>
-							<br/>
+							<br>
+							<br>
 							<table align='center'>
 								<tr>
 									<th>Lp.</th>
@@ -50,7 +65,24 @@ namespace Invoicing.BusinessLogic.Factories.Templates
 									<th>VAT%</th>
 									<th>Kwota VAT</th>
 									<th>Wartość brutto</th>
-								</tr>", invoice.Number, user.CompanyName, user.Street, user.HouseNumber, user.LocalNumber, user.ZipCode, user.City, user.Nip, invoice.Contractor.Name, invoice.Contractor.Street, invoice.Contractor.HouseNumber, invoice.Contractor.LocalNumber, invoice.Contractor.ZipCode, invoice.Contractor.City, invoice.Contractor.Nip);
+								</tr>", 
+								invoice.Number, 
+								user.CompanyName, 
+								user.Street, 
+								user.HouseNumber, 
+								user.LocalNumber, 
+								user.ZipCode, 
+								user.City, 
+								user.Nip.DisplayNipFormat(), 
+								invoice.Contractor.Name, 
+								invoice.Contractor.Street, 
+								invoice.Contractor.HouseNumber, 
+								invoice.Contractor.LocalNumber, 
+								invoice.Contractor.ZipCode, 
+								invoice.Contractor.City, 
+								invoice.Contractor.Nip.DisplayNipFormat(),
+								invoice.DateOfIssue.ToString("dd/MM/yyyy"),
+								invoice.DateOfService.ToString("dd/MM/yyyy"));
 			foreach(var item in invoice.Details)
 			{
 				sb.AppendFormat(@"<tr>
@@ -64,7 +96,17 @@ namespace Invoicing.BusinessLogic.Factories.Templates
 									<td>{7}</td>
 									<td>{8}</td>
 									<td>{9}</td>
-								</tr>", index, item.ProductName, item.PKWiU, item.NetPrice, item.Quantity, item.Unit, item.NetValue, item.VatRate, item.VatAmount, item.GrossValue);
+								</tr>", 
+								index, 
+								item.ProductName, 
+								item.PKWiU, 
+								item.NetPrice.ToString("#,0.00",numberFormatInfo), 
+								item.Quantity, 
+								item.Unit, 
+								item.NetValue.ToString("#,0.00", numberFormatInfo), 
+								item.VatRate, 
+								item.VatAmount.ToString("#,0.00", numberFormatInfo), 
+								item.GrossValue.ToString("#,0.00", numberFormatInfo));
 				index++;
 			}
 			sb.Append(@"

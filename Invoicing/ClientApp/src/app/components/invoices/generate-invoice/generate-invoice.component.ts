@@ -68,7 +68,15 @@ export class GenerateInvoiceComponent implements OnInit {
     this.invoiceService.generateInvoice(this.generateInvoiceForm.value)
       .subscribe(
         res => {
-
+          const data = window.URL.createObjectURL(res);
+          var link = document.createElement('a');
+          link.href = data;
+          link.download = "faktura";
+          link.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }));
+          setTimeout(function () {
+            window.URL.revokeObjectURL(data);
+            link.remove();
+          }, 100);
         },
         err => {
         });

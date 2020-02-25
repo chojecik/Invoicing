@@ -11,7 +11,7 @@ table {
 td, th {
     border: 1px solid gray;
     padding: 15px;
-    font-size: 22px;
+    font-size: 13px;
     text-align: center;
 }
 
@@ -23,8 +23,8 @@ table th {
     background-color: lightgray;
 }
 
-.contractors-data div{
-    display: inline-block;
+.row div{
+    /*display: inline-block;*/
     height: auto;
 }
 
@@ -34,4 +34,8 @@ table th {
 
 .buyer-info{
     float:right;
+}
+
+.dates-info{
+    float: right;
 }

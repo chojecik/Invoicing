@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 
 namespace Invoicing.BusinessLogic.Helpers
 {
@@ -16,6 +17,25 @@ namespace Invoicing.BusinessLogic.Helpers
                 ?.GetCustomAttribute<DescriptionAttribute>()
                 ?.Description
                 ?? value.ToString();
+        }
+
+        public static string DisplayNipFormat(this string value)
+        {
+            var sb = new StringBuilder();
+            if(value.Length == 10)
+            {
+                sb.Append(value.Substring(0,3));
+                sb.Append("-");
+                sb.Append(value.Substring(3,3));
+                sb.Append("-");
+                sb.Append(value.Substring(6,2));
+                sb.Append("-");
+                sb.Append(value.Substring(8,2));
+
+                return sb.ToString();
+            }
+
+            return value;
         }
     }
 }

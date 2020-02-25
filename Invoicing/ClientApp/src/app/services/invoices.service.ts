@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { Invoice } from '../models/invoice';
-import { HttpHeaders, HttpClient } from '@angular/common/http';
+import { HttpHeaders, HttpClient, HttpResponse } from '@angular/common/http';
 import { tap, catchError } from 'rxjs/operators';
 import { InvoiceType } from '../enums/invoice-type.enum';
 
@@ -44,10 +44,13 @@ export class InvoicesService {
     );
   }
 
-  generateInvoice(invoice: Invoice): Observable<Invoice> {
-    const headers = new HttpHeaders().set('Content-Type', 'application/json').set('Accept', "application/pdf");
+  generateInvoice(invoice: Invoice): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    });
 
-    return this.http.post<Invoice>(this.apiUrl + "/generate-new", invoice, { headers: headers, responseType: 'blob' as 'json'}).pipe(
+    return this.http.post<Invoice>(this.apiUrl + "/generate-new", invoice, { headers: headers, responseType: 'blob' as 'json' }).pipe(
       catchError(this.handleError<Invoice>('generateInvoice'))
     );
   }
