@@ -39,3 +39,23 @@ table th {
 .dates-info{
     float: right;
 }
+
+.hidden {
+    visibility: hidden;
+}
+
+.highlighted {
+    background-color: lightgray;
+}
+
+.borderless {
+    width: 400px;
+}
+
+.noBorder {
+    border: none !important;
+}
+
+.bold {
+    font-weight: bold;
+}

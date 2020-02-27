@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using AutoMapper;
 using DinkToPdf.Contracts;
@@ -26,7 +27,6 @@ namespace Invoicing.Web.Controllers
         private readonly IUserService _userService;
         private readonly IConverter _converter;
         private readonly PdfFactory _pdfFactory;
-
         public InvoicesController(IMapper mapper, IInvoiceService invoiceService, IFileService fileService, IUserService userService, IConverter converter)
         {
             _mapper = mapper;
@@ -95,9 +95,11 @@ namespace Invoicing.Web.Controllers
             var user = _userService.GetById(userId);
 
             var invoice = _mapper.Map<Invoice>(model);
+            invoice.DateOfPayment = DateTime.Now.AddDays(15);    
+
             var file = _pdfFactory.GeneratePdf(invoice, TemplateGenerator.GetSaleInvoiceTemplate(invoice, user));
 
-            return File(file, "application/pdf", "invoice.pdf");
+            return File(file, "application/pdf", $"{invoice.Number.Replace("'/'", "_")}.pdf");
         }
 
         // PUT api/<controller>/5

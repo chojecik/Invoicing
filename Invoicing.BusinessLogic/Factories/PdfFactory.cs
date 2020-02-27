@@ -29,7 +29,7 @@ namespace Invoicing.BusinessLogic.Factories
             {
                 PagesCount = true,
                 HtmlContent = template,
-                WebSettings = { DefaultEncoding = "utf-8", UserStyleSheet = Path.Combine(Directory.GetCurrentDirectory(), "assets", "styles.css") }
+                WebSettings = { DefaultEncoding = "utf-8", UserStyleSheet = Path.Combine(Directory.GetCurrentDirectory(), "assets", "styles.css")}
             };
 
             var pdf = new HtmlToPdfDocument()

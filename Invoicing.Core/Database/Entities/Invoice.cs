@@ -27,6 +27,8 @@ namespace Invoicing.Core.Database.Entities
         [Required]
         public InvoiceType Type { get; set; }
 
+        public DateTime DateOfPayment { get; set; }
+
         public bool IsPaid { get; set; }
 
         [Required]

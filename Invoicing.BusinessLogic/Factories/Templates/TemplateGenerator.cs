@@ -2,6 +2,7 @@
 using Invoicing.Core.Database.Entities;
 using System.Globalization;
 using System.Text;
+using LiczbyNaSlowaNETCore;
 
 namespace Invoicing.BusinessLogic.Factories.Templates
 {
@@ -27,8 +28,16 @@ namespace Invoicing.BusinessLogic.Factories.Templates
 							</div>
 							<div>
 								<div class='dates-info'>
-									<p>data wystawienia:	{15}</p>
-									<p>data wydania towaru lub wykonania usługi:	{16}</p>
+									<table align='right' class='borderless noBorder'>
+										<tr class='noBorder'>
+											<td class='bold noBorder' align='right'>Data wystawienia:</td>
+											<td class='noBorder' align='right'>{15}</td>
+										</tr>
+										<tr class='noBorder'>
+											<td class='bold noBorder' align='right'>Data wydania towaru lub wykonania usługi:</td>
+											<td class='noBorder' align='right'>{16}</td>
+										</tr>
+									</table>
 								</div>
 							</div>
 							<br>
@@ -81,8 +90,8 @@ namespace Invoicing.BusinessLogic.Factories.Templates
 								invoice.Contractor.ZipCode, 
 								invoice.Contractor.City, 
 								invoice.Contractor.Nip.DisplayNipFormat(),
-								invoice.DateOfIssue.ToString("dd/MM/yyyy"),
-								invoice.DateOfService.ToString("dd/MM/yyyy"));
+								invoice.DateOfIssue.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture),
+								invoice.DateOfService.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture));
 			foreach(var item in invoice.Details)
 			{
 				sb.AppendFormat(@"<tr>
@@ -109,8 +118,68 @@ namespace Invoicing.BusinessLogic.Factories.Templates
 								item.GrossValue.ToString("#,0.00", numberFormatInfo));
 				index++;
 			}
+
+			sb.AppendFormat(@"
+								<tr>
+									<td colspan='3' class='hidden'></td>
+									<td colspan='3' class='highlighted bold'>Razem</td>
+									<td class='highlighted'>{0}</td>
+									<td class='highlighted'>-</td>
+									<td class='highlighted'>{1}</td>
+									<td class='highlighted'>{2}</td>
+								</tr>
+								<tr>
+									<td colspan='3' class='hidden'></td>
+									<td colspan='3' class='highlighted bold'>Rozliczenie VAT (PLN)</td>
+									<td>{3}</td>
+									<td>{4}</td>
+									<td>{5}</td>
+									<td>{6}</td>
+								</tr>
+							</table>",
+								invoice.NetValue.ToString("#,0.00", numberFormatInfo),
+								invoice.VatAmount.ToString("#,0.00", numberFormatInfo),
+								invoice.GrossValue.ToString("#,0.00", numberFormatInfo),
+								invoice.NetValue.ToString("#,0.00", numberFormatInfo),
+								23,
+								invoice.VatAmount.ToString("#,0.00", numberFormatInfo),
+								invoice.GrossValue.ToString("#,0.00", numberFormatInfo));
+
+			sb.AppendFormat(@"<br>
+								<br>
+								<br>
+								<br>
+								<div>
+									<table align='right' class='borderless noBorder'>
+										<tr class='noBorder'>
+											<td class='bold noBorder' align='left'>Do zapłaty:</td>
+											<td class='noBorder' align='right'>{0}</td>
+										</tr>
+										<tr class='noBorder'>
+											<td class='bold noBorder' align='left'>Słownie:</td>
+											<td class='noBorder' align='right'>{1}</td>
+										</tr>
+										<tr class='noBorder'>
+											<td class='bold noBorder' align='left'>Sposób zapłaty:</td>
+											<td class='noBorder' align='right'>przelew</td>
+										</tr>
+										<tr class='noBorder'>
+											<td class='bold noBorder' align='left'>Termin:</td>
+											<td class='noBorder' align='right'>{2}</td>
+										</tr>
+										<tr class='noBorder'>
+											<td class='bold noBorder' align='left'>Rachunek:</td>
+											<td class='noBorder' align='right'>{3}</td>
+										</tr>
+									</table>
+								</div>",
+								$"{invoice.GrossValue.ToString("#,0.00", numberFormatInfo)} PLN",
+								NumberToText.Convert(invoice.GrossValue, new NumberToTextOptions {Currency = Currency.PLN, Stems = true }).DisplayDecimalValues(invoice.GrossValue),
+								invoice.DateOfPayment.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture),
+								user.BankAccount.DisplayBankAccountFormat());
+
 			sb.Append(@"
-                                </table>
+                                
                             </body>
                         </html>");
 
