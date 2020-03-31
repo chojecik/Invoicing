@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using AutoMapper;
 using DinkToPdf.Contracts;
 using Invoicing.BusinessLogic.Factories;
@@ -11,7 +10,6 @@ using Invoicing.Core.Enums;
 using Invoicing.Web.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -43,7 +41,7 @@ namespace Invoicing.Web.Controllers
         {
             int.TryParse(HttpContext.User.Identity.Name, out int userId);
             return new JsonResult(_mapper
-                .Map<List<InvoiceModel>>(_userService.GerUsersInvoicesByType(userId, (InvoiceType)type)));    
+                .Map<List<InvoiceModel>>(_userService.GetUsersInvoicesByType(userId, (InvoiceType)type)));    
         }
 
         // GET api/<controller>/5

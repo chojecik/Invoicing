@@ -121,7 +121,7 @@ namespace Invoicing.BusinessLogic.Services
             }
         }
 
-        public IEnumerable<Invoice> GerUsersInvoicesByType(int userId, InvoiceType type)
+        public IEnumerable<Invoice> GetUsersInvoicesByType(int userId, InvoiceType type)
         {
             return _context.Users
                 .Include(user => user.Invoices)
